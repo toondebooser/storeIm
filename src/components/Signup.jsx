@@ -1,10 +1,14 @@
-import React from 'react'
 import { useRef } from 'react'
 
 export default function Signup() {
     const emailRef = useRef()
     const passwordRef = useRef()
     const passwordConfirmationRef = useRef()
+
+    const handleSubmit = (e)=>{
+        e.preventDefault()
+    }
+
   return (
     <>
     <div className="card">
