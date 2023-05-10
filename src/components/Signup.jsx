@@ -1,31 +1,42 @@
-import { useRef, useState } from "react";
+import { useRef,useContext,useState } from "react";
 import { auth } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useAuth } from "../context/AuthContext";
 
 export default function Signup() {
-//   const [userEmail, setUserEmail] = useState('');
-//   const [userPassword, setUserPassword] = useState('');
-  // const passwordConfirmationRef = useRef()
-const emailRef = useRef()
-const passwordRef = useRef()
+  const {
+    currentUser,
+    emailRef,
+    passwordRef,
+    createUser,
+  } = useAuth()
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    createUserWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value)
-      .then((userCredential) => {
-        console.log(userCredential);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  console.log(createUser); 
+// const emailRef = useRef()
+// const passwordRef = useRef()
+// const passwordConfirmationRef = useRef()
+
+//   const handleSubmit = (e) => {
+//     e.preventDefault();
+
+    
+      
+    
+//     createUserWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value)
+//       .then((userCredential) => {
+//         console.log(userCredential);
+//       })
+//       .catch((error) => {
+//         console.log(error);
+//       });
+//   };
 
   return (
     <>
       <div className="card">
         <h2 className="formTitle">Sign up</h2>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={createUser}>
           <span className="email">
             <label htmlFor="email">Email</label> <br />
             <input
@@ -33,8 +44,7 @@ const passwordRef = useRef()
               type="email"
               name="email"
               ref={emailRef}
-            //   value={userEmail}
-            //   onChange={(e)=>setUserEmail(e.target.value)}
+           
             />
           </span>
 
@@ -45,15 +55,14 @@ const passwordRef = useRef()
               type="password"
               name="password"
               ref={passwordRef}
-            //   value={userPassword}
-            //   onChange={(e)=>setUserPassword(e.target.value)}
+           
             />
           </span>
 
-          {/* <span className="passwordConfirmation">
+          <span className="passwordConfirmation">
                 <label htmlFor="passwordConfirmation">Password Confirmation</label><br />
-                <input onSubmit={handleSubmit} type="password" name='passwordConfirmation'  />
-            </span> */}
+                <input type="password" name='passwordConfirmation'   />
+            </span>
 
           <span className="submit">
             <input className="submitButton" type="submit" value="Sign up" />

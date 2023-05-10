@@ -1,11 +1,17 @@
 html{
     height: 100%;
 }
+:root {
+    --yellow: #ffc000;
+    --white: #f2f2f2;
+    --Black: #333333;
+  }
 body{
     font-family: "-apple-system", "BlinkMacSystemFont", "-apple-system",
     "BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
     "Open Sans", "Helvetica Neue", sans-serif;
     height: 100%;
+    background-color:var(--white);
 }
 
 .content{
@@ -15,17 +21,19 @@ body{
     height: 100%;
 }
 .card{
-border: solid lightgray 1px;
-border-radius: 5px;
+    align-self: center;
+border-radius: 20px;
 text-align: center;
 grid-column: 2/12;
 justify-self: center;
 margin: 20px;
 max-width: 400px;
+background-color: lightblue;
 
 }
 .formTitle{
     margin-bottom: 4px;
+    color: var(--Black);
 }
 form{
     display: grid;
@@ -34,20 +42,33 @@ form{
     margin-top: 20px;
 }
 .email{
+    
     grid-column: 2/12;
     text-align: left;
     justify-self: center;
+    color: var(--Black)
     
+}
+
+input{
+    margin-top: 10px;
+    border-radius: 10px;
+    background-color: var(--white);
+    width: 200px;
+    height: 30px;
+    border: none;
 }
 .password{
     grid-column: 2/12;
     text-align: left;
     justify-self: center;
+    color: var(--Black)
 }
 .passwordConfirmation{
     grid-column: 2/12;
     text-align: left;
     justify-self: center;
+    color: var(--Black)
 }
 .submit{
     grid-column: 2/12;
@@ -56,8 +77,17 @@ form{
     margin-bottom: 20px;
 }
 .submitButton{
+    background: linear-gradient(145deg, #ebc64f, var(--yellow));
+ box-shadow:  5px 5px 10px #424141,;
     width: 100%;
     border: none;
-    background-color: skyblue;
-    border-radius: 5px;
+    margin-top: 15px;
+    color: white;
+    background-color: var(--yellow) ;
+    border-radius: 10px;
+    transition: transform 0.2s ease;
+}
+.submitButton:hover{
+    cursor: pointer;
+    transform: scale(1.01);
 }
