@@ -56,11 +56,11 @@ export function AuthProvider({ children }) {
       auth,
       (user) => {
         setCurrentUser(user);
-        return unsubscribe;
-      },
-      []
-    );
-  });
+      })
+      return unsubscribe;
+      
+    
+  },[]);
 
   const props = {
     currentUser,

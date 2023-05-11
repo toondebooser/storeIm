@@ -30,9 +30,11 @@ background-color: lightblue;
 
 animation: zoom 2s forwards;
 animation-play-state: running;
+}
 
-
-
+.goToSignup{
+    background-color: var(--yellow);
+    margin-bottom: 100px;
 }
 .formTitle{
     margin-bottom: 4px;

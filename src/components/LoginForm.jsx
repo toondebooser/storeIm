@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function LoginForm() {
@@ -17,7 +18,7 @@ export default function LoginForm() {
     return (
       <>
         <div className="card">
-          <h2 className="formTitle">Sign up</h2>
+          <h2 className="formTitle">Log in</h2>
   
           <form onSubmit={loginUser}>
             <span className="email">
@@ -48,7 +49,9 @@ export default function LoginForm() {
           </form>
           
         <span>Don't have an account?</span><br />
-        <a href="/Signup"> Create one</a>
+        <span className="goToSignup">
+          <Link  to={"/Signup"}> Create one </Link>
+        </span>
         </div>
       </>
     );

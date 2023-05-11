@@ -9,7 +9,7 @@ export default function Signup() {
     createUser,
   } = useAuth()
 
-
+ currentUser !== null ? console.log(currentUser.email): console.log("Loading");;
 
   return (
     <>
