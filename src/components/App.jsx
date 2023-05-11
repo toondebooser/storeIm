@@ -16,7 +16,6 @@ function PrivateRoute({ children }) {
 
 function App() {
   const {currentUser, loggedOut}= useAuth()
-  console.log(loggedOut);
   return (
     <>
         <div className="content">
