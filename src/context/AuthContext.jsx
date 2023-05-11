@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState, useRef } from "react";
 import { useContext, createContext } from "react";
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { auth, db } from "../firebase";
 import {
   createUserWithEmailAndPassword,signInWithEmailAndPassword,
@@ -18,6 +18,7 @@ export const useAuth = () => {
 
 
 export function AuthProvider({ children }) {
+  const navigate = useNavigate();
 
   const [currentUser, setCurrentUser] = useState(null);
 
@@ -32,7 +33,8 @@ export function AuthProvider({ children }) {
         createUserWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value)
         .then((userCredential) => {
           console.log(userCredential);
-          <Navigate to="/Dashboard" replace />
+          navigate('/dashboard');
+          
           
           })
           .catch((error) => {
@@ -47,6 +49,7 @@ export function AuthProvider({ children }) {
     signInWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value)
     .then((userCredential) => {
       console.log(userCredential);
+      navigate('/dashboard');
     })
     .catch((error) => {
       console.log(error);
