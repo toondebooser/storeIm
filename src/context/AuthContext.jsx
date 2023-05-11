@@ -1,7 +1,8 @@
 import React from "react";
 import { useEffect, useState, useRef } from "react";
 import { useContext, createContext } from "react";
-import { auth } from "../firebase";
+import { Navigate } from 'react-router-dom';
+import { auth, db } from "../firebase";
 import {
   createUserWithEmailAndPassword,signInWithEmailAndPassword,
   onAuthStateChanged,
@@ -30,6 +31,9 @@ export function AuthProvider({ children }) {
     // TODO add validation before creation
         createUserWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value)
         .then((userCredential) => {
+          console.log(userCredential);
+          <Navigate to="/Dashboard" replace />
+          
           })
           .catch((error) => {
             console.log(error);
@@ -42,6 +46,7 @@ export function AuthProvider({ children }) {
     // TODO add validation before creation
     signInWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value)
     .then((userCredential) => {
+      console.log(userCredential);
     })
     .catch((error) => {
       console.log(error);
@@ -51,6 +56,7 @@ export function AuthProvider({ children }) {
   const logout = ()=>{
     auth.signOut();
   }
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(
       auth,
