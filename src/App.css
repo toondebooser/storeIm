@@ -1,6 +1,4 @@
-html{
-    height: 100%;
-}
+
 :root {
     --yellow: #ffc000;
     --white: #f2f2f2;
@@ -10,7 +8,6 @@ body{
     font-family: "-apple-system", "BlinkMacSystemFont", "-apple-system",
     "BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
     "Open Sans", "Helvetica Neue", sans-serif;
-    height: 100%;
     background-color:var(--white);
 }
 
@@ -18,7 +15,8 @@ body{
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     gap: 5px;
-    height: 100%;
+    height: 70vh;
+
 }
 .card{
     align-self: center;
@@ -30,16 +28,23 @@ margin: 20px;
 max-width: 400px;
 background-color: lightblue;
 
+animation: zoom 2s forwards;
+animation-play-state: running;
+
+
+
 }
 .formTitle{
     margin-bottom: 4px;
     color: var(--Black);
+    font-weight:400;
 }
 form{
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     gap: 5px;
     margin-top: 20px;
+    
 }
 .email{
     
@@ -57,6 +62,44 @@ input{
     width: 200px;
     height: 30px;
     border: none;
+    
+    
+}
+label{
+     font-weight: lighter;
+}
+.welcomeHeader{
+    grid-column: 1/13;
+    font-size:xx-large;
+    font-weight: 400;
+    justify-self: center;
+}
+nav{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    border-radius: 10px;
+    height: 40px;
+
+}
+a{
+    color: var(--Black);
+    padding: 1px 5px;
+    border-radius: 5px;
+text-decoration: none;
+
+}
+a:hover{
+    text-decoration: none;
+}
+.welcomeLogo{
+    grid-column: 1/13;
+    height: 200px;
+    align-self: end;
+    justify-self: center;
+    animation:alternate infinite breath 1s ease-out;
+
+    animation-play-state: running;
 }
 .password{
     grid-column: 2/12;
@@ -90,4 +133,30 @@ input{
 .submitButton:hover{
     cursor: pointer;
     transform: scale(1.01);
+}
+.appHeader{
+    background-color: lightblue;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: lighter;
+}
+@keyframes zoom {
+    0% {
+        transform: translateY(-280px) translateX(-100px) scale(0);
+        z-index: -1;
+        opacity: 0%;
+      }
+      100% {
+        transform: translateY(0px) translateX(0px) scale(1);
+        z-index: 0;
+        opacity: 100%;
+      }
+}
+@keyframes breath {
+    0%{
+        transform: translateY(0px) scale(1)
+    }
+    100%{
+        transform: translateY(-20px) scale(1.05);
+    }
 }

@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import { useContext, createContext } from "react";
 import { auth } from "../firebase";
 import {
-  createUserWithEmailAndPassword,
+  createUserWithEmailAndPassword,signInWithEmailAndPassword,
   onAuthStateChanged,
 } from "firebase/auth";
 
@@ -22,7 +22,7 @@ export function AuthProvider({ children }) {
 
   const emailRef = useRef();
   const passwordRef = useRef();
-  // const passwordConfirmationRef = useRef()
+  const passwordConfirmationRef = useRef()
 
   const createUser = (e) => {
     e.preventDefault();
@@ -30,13 +30,27 @@ export function AuthProvider({ children }) {
     // TODO add validation before creation
         createUserWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value)
         .then((userCredential) => {
-            console.log(userCredential);
           })
           .catch((error) => {
             console.log(error);
           });
   };
+ 
+  const loginUser = (e)=>{
+    e.preventDefault()
+    
+    // TODO add validation before creation
+    signInWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value)
+    .then((userCredential) => {
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
 
+  const logout = ()=>{
+    auth.signOut();
+  }
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(
       auth,
@@ -52,7 +66,10 @@ export function AuthProvider({ children }) {
     currentUser,
     emailRef,
     passwordRef,
+    passwordConfirmationRef,
     createUser,
+    loginUser,
+    logout
   };
   return <AuthContext.Provider value={props}>
     {children}

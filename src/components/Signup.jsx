@@ -1,35 +1,15 @@
-import { useRef,useContext,useState } from "react";
-import { auth } from "../firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useAuth } from "../context/AuthContext";
 
 export default function Signup() {
   const {
     currentUser,
+    passwordConfirmationRef,
     emailRef,
     passwordRef,
     createUser,
   } = useAuth()
 
-  console.log(createUser); 
-// const emailRef = useRef()
-// const passwordRef = useRef()
-// const passwordConfirmationRef = useRef()
 
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-
-    
-      
-    
-//     createUserWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value)
-//       .then((userCredential) => {
-//         console.log(userCredential);
-//       })
-//       .catch((error) => {
-//         console.log(error);
-//       });
-//   };
 
   return (
     <>
@@ -61,7 +41,7 @@ export default function Signup() {
 
           <span className="passwordConfirmation">
                 <label htmlFor="passwordConfirmation">Password Confirmation</label><br />
-                <input type="password" name='passwordConfirmation'   />
+                <input type="password" name='passwordConfirmation'  ref={passwordConfirmationRef} />
             </span>
 
           <span className="submit">
