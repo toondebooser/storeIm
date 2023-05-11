@@ -1,20 +1,23 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { Navigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function LoginForm() {
 
 
-    const {
-      currentUser,
-      passwordConfirmationRef,
-      emailRef,
-      passwordRef,
-      createUser,
-      loginUser
-    } = useAuth()
+  const {
+    currentUser,
+    passwordConfirmationRef,
+    emailRef,
+    passwordRef,
+    createUser,
+    loginUser
+  } = useAuth()
   
-  
-  
+
+    
+
     return (
       <>
         <div className="card">

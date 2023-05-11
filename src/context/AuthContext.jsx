@@ -19,12 +19,15 @@ export const useAuth = () => {
 
 export function AuthProvider({ children }) {
   const navigate = useNavigate();
-
+  
   const [currentUser, setCurrentUser] = useState(null);
-
+  const [stopLoading, setStopLoading] = useState(false)
   const emailRef = useRef();
+
   const passwordRef = useRef();
   const passwordConfirmationRef = useRef()
+
+  
 
   const createUser = (e) => {
     e.preventDefault();
@@ -64,6 +67,7 @@ export function AuthProvider({ children }) {
     const unsubscribe = onAuthStateChanged(
       auth,
       (user) => {
+        user ? setStopLoading(true): setStopLoading(false)
         setCurrentUser(user);
       })
       return unsubscribe;
@@ -74,6 +78,7 @@ export function AuthProvider({ children }) {
   const props = {
     currentUser,
     emailRef,
+    stopLoading,
     passwordRef,
     passwordConfirmationRef,
     createUser,
