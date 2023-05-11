@@ -7,14 +7,14 @@ export default function Header() {
 
   const auth = useAuth();
   const currentUser = auth.currentUser;
-  const {logout, stopLoading} = useAuth()
-
+  const {logout, stopLoading, loggedOut} = useAuth()
+  console.log(currentUser);
   return (
     <>
       <nav>
-        <button onClick={()=>logout()}>Logout</button>
+        { currentUser && !loggedOut? <button onClick={()=>logout()}>Logout</button>: null}
         <Link to={"/"}>Home</Link>
-        {stopLoading ===false? <div>...Loading</div>:
+        {!stopLoading? <div>...Loading</div>:
         currentUser !== null ? (
           <Link to={"/Dashboard"}>Dashboard</Link>
         ) : (

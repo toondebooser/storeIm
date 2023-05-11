@@ -6,20 +6,24 @@ import Home from "./Home";
 import LoginForm from "./LoginForm";
 import Dashboard from "./Dashboard";
 import Signup from "./Signup";
-function App() {
-  const { currentUser } = useAuth();
 
 function PrivateRoute({ children }) {
-  return currentUser ? children : <Navigate to="/" />;
+  const { currentUser} = useAuth();
+
+  return currentUser? children :<Navigate to="/" />;
+
 }
 
+function App() {
+  const {currentUser, loggedOut}= useAuth()
+  console.log(loggedOut);
   return (
     <>
         <div className="content">
             <Routes>
-              <Route path="/Login" element={<PrivateRoute><LoginForm/></PrivateRoute>} />
+              <Route path="/Login" element={!loggedOut? <Dashboard /> :<LoginForm/>} />
               <Route exact path="/" element={<Home/>} />
-              <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+              <Route path="/dashboard" element={loggedOut?<LoginForm/>:  <Dashboard />} />
               <Route path="/Signup" element={<Signup/>} />
             </Routes>
         </div>

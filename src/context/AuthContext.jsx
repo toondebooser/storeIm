@@ -21,7 +21,8 @@ export function AuthProvider({ children }) {
   const navigate = useNavigate();
   
   const [currentUser, setCurrentUser] = useState(null);
-  const [stopLoading, setStopLoading] = useState(false)
+  const [stopLoading, setStopLoading] = useState(false);
+  const [loggedOut, setLoggedOut] = useState(false)
   const emailRef = useRef();
 
   const passwordRef = useRef();
@@ -52,6 +53,7 @@ export function AuthProvider({ children }) {
     signInWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value)
     .then((userCredential) => {
       console.log(userCredential);
+      setLoggedOut(false)
       navigate('/dashboard');
     })
     .catch((error) => {
@@ -60,14 +62,18 @@ export function AuthProvider({ children }) {
   }
 
   const logout = ()=>{
+    setLoggedOut(true)
     auth.signOut();
+    setStopLoading(true)
   }
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(
       auth,
       (user) => {
-        user ? setStopLoading(true): setStopLoading(false)
+        user ? setStopLoading(true) & setLoggedOut(false): 
+        !user && !loggedOut ? setStopLoading(true) & setLoggedOut(true):
+        setStopLoading(false);
         setCurrentUser(user);
       })
       return unsubscribe;
@@ -79,6 +85,7 @@ export function AuthProvider({ children }) {
     currentUser,
     emailRef,
     stopLoading,
+    loggedOut,
     passwordRef,
     passwordConfirmationRef,
     createUser,

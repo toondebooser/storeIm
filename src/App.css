@@ -28,7 +28,7 @@ margin: 20px;
 max-width: 400px;
 background-color: lightblue;
 
-animation: zoom 2s forwards;
+animation: zoom 0.5s forwards;
 animation-play-state: running;
 }
 
