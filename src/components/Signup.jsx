@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 
 export default function Signup() {
@@ -5,11 +6,16 @@ export default function Signup() {
     currentUser,
     passwordConfirmationRef,
     emailRef,
+    nameRef,
+    lastNameRef,
+    stopLoading,
     passwordRef,
     createUser,
   } = useAuth()
 
- currentUser !== null ? console.log(currentUser.email): console.log("Loading");;
+  
+
+ stopLoading && currentUser ? console.log(currentUser.email): console.log("Loading");
 
   return (
     <>
@@ -17,6 +23,19 @@ export default function Signup() {
         <h2 className="formTitle">Sign up</h2>
 
         <form onSubmit={createUser}>
+          
+         <span className="formElement">
+           <label htmlFor="name" className="label" >Name</label> <br />
+           <input type="text" name="name" ref={nameRef}/>
+         </span>
+
+         <span className="formElement">
+           <label htmlFor="lastName" className="label">LastName</label> <br />
+           <input type="text" name="lastName" ref={lastNameRef} />
+         </span>
+
+         
+
           <span className="email">
             <label htmlFor="email">Email</label> <br />
             <input

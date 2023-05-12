@@ -14,6 +14,7 @@ body{
 .content{
     display: grid;
     grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: 1fr max-content 1fr;
     gap: 5px;
     height: 70vh;
 
@@ -28,13 +29,29 @@ margin: 20px;
 max-width: 400px;
 background-color: lightblue;
 
-animation: zoom 0.5s forwards;
-animation-play-state: running;
+/* animation: zoom 0.5s forwards;
+animation-play-state: running; */
 }
 
 .goToSignup{
+    color: var(--Black);
+    height: 25px;
+    width: 80px;
+    text-align: center;
+    grid-row: 3/4;
+    grid-column: 2/12;
+    justify-self: center;
+    transform: scale(0.8);
+}
+.goToSignup:hover{
+    color: var(--white);
     background-color: var(--yellow);
-    margin-bottom: 100px;
+}
+.haveNoAccount{
+    height: 25px;
+    grid-row: 2/3;
+    grid-column: 2/12;
+    justify-self: center;
 }
 .formTitle{
     margin-bottom: 4px;
@@ -56,6 +73,12 @@ form{
     color: var(--Black)
     
 }
+.formElement{
+    grid-column: 1/13;
+    justify-self: center;
+    text-align: start;
+}
+
 
 input{
     margin-top: 10px;

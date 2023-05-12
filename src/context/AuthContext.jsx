@@ -7,6 +7,7 @@ import {
   createUserWithEmailAndPassword,signInWithEmailAndPassword,
   onAuthStateChanged,
 } from "firebase/auth";
+import { collection, addDoc, getDocs, doc, getDoc  } from "firebase/firestore"; 
 
 const AuthContext = React.createContext();
 
@@ -23,29 +24,61 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [stopLoading, setStopLoading] = useState(false);
   const [loggedOut, setLoggedOut] = useState(false)
-  const emailRef = useRef();
 
+  const nameRef = useRef();
+  const lastNameRef = useRef();
+  const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmationRef = useRef()
+  const getData = async () => {
 
+
+    if (currentUser) {
+      try {
+        const docRef = doc(db, "users", 
+        "K5E8ufHU0bzolvkvxEWO");
+        const docSnap = await getDoc(docRef);
+        
+        if (docSnap.exists()) {
+          console.log(docSnap.data());
+        } else {
+          console.log("No such document!");
+        }
+      } catch (error) {
+        console.log("Error getting document:", error);
+      }
+    }
+  }
   
 
-  const createUser = (e) => {
+  const createUser = async (e) => {
     e.preventDefault();
 
     // TODO add validation before creation
         createUserWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value)
-        .then((userCredential) => {
+        .then( async (userCredential) => {
           console.log(userCredential);
-          navigate('/dashboard');
-          
+         
+          try {
+            const docRef = await addDoc(collection(db, "users"), {
+              first: nameRef.current.value,
+              lastName: lastNameRef.current.value,
+              email: userCredential.user.email,
+              uid: userCredential.user.uid
+
+            });
+            console.log("Document written with ID: ", docRef.id);
+          } catch (e) {
+            console.error("Error adding document: ", e);
+          }
+           navigate('/dashboard');
           
           })
           .catch((error) => {
             console.log(error);
           });
+
   };
- 
   const loginUser = (e)=>{
     e.preventDefault()
     
@@ -70,11 +103,15 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(
       auth,
-      (user) => {
-        user ? setStopLoading(true) & setLoggedOut(false): 
-        !user && !loggedOut ? setStopLoading(true) & setLoggedOut(true):
-        setStopLoading(false);
-        setCurrentUser(user);
+       async (user)  =>  {
+        if (user) {
+          setStopLoading(true);
+          setLoggedOut(false);
+          setCurrentUser(user);
+        } else {
+          setStopLoading(true);
+          setLoggedOut(true);
+        }
       })
       return unsubscribe;
       
@@ -83,11 +120,14 @@ export function AuthProvider({ children }) {
 
   const props = {
     currentUser,
-    emailRef,
     stopLoading,
     loggedOut,
+    nameRef,
+    lastNameRef,
+    emailRef,
     passwordRef,
     passwordConfirmationRef,
+    getData,
     createUser,
     loginUser,
     logout
