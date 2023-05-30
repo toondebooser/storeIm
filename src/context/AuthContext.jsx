@@ -54,28 +54,21 @@ export function AuthProvider({ children }) {
     e.preventDefault();
 
     // TODO add validation before creation
+    
     createUserWithEmailAndPassword(
       auth,
       emailRef.current.value,
       passwordRef.current.value
     )
       .then(async (userCredential) => {
-        console.log(userCredential);
-
-        try {
-          const docRef = await addDoc(
-            collection(db, "users", userCredential.user.uid),
-            {
-              first: nameRef.current.value,
-              lastName: lastNameRef.current.value,
-              email: userCredential.user.email,
-              uid: userCredential.user.uid,
-            }
-          );
-          console.log("Document written with ID: ", docRef.id);
-        } catch (e) {
-          console.error("Error adding document: ", e);
-        }
+        console.log(userCredential.user);
+        await setDoc(doc(db, "users", userCredential.user.uid),  {
+                first: nameRef.current.value,
+                lastName: lastNameRef.current.value,
+                email: userCredential.user.email,
+                uid: userCredential.user.uid,
+              });
+        
         navigate("/dashboard");
       })
       .catch((error) => {
