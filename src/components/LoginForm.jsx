@@ -9,7 +9,6 @@ export default function LoginForm() {
     passwordConfirmationRef,
     emailRef,
     passwordRef,
-    createUser,
     loginUser,
   } = useAuth();
 

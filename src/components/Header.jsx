@@ -4,18 +4,18 @@ import { useAuth } from "../context/AuthContext";
 import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
 
 export default function Header() {
+  const { logout, stopLoading, loggedOut, currentUser } = useAuth();
 
-  const auth = useAuth();
-  const currentUser = auth.currentUser;
-  const {logout, stopLoading, loggedOut} = useAuth()
-  
   return (
     <>
       <nav>
-        { currentUser && !loggedOut? <button onClick={()=>logout()}>Logout</button>: null}
+        {currentUser && !loggedOut ? (
+          <button onClick={() => logout()}>Logout</button>
+        ) : null}
         <Link to={"/"}>Home</Link>
-        {!stopLoading? <div>...Loading</div>:
-        !loggedOut ? (
+        {!stopLoading ? (
+          <div>...Loading</div>
+        ) : !loggedOut ? (
           <Link to={"/Dashboard"}>Dashboard</Link>
         ) : (
           <Link to={"/Login"}>Login</Link>
