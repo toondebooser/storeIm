@@ -2,14 +2,21 @@ import React from "react";
 import { useEffect, useState, useRef } from "react";
 import { useContext, createContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth, db } from "../firebase";
+import { auth, db, storage } from "../firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
 } from "firebase/auth";
-import { collection, addDoc, getDocs, doc, getDoc, setDoc } from "firebase/firestore";
-
+import {
+  collection,
+  addDoc,
+  getDocs,
+  doc,
+  getDoc,
+  setDoc,
+} from "firebase/firestore";
+import { listAll, getDownloadURL, ref } from "firebase/storage";
 const AuthContext = React.createContext();
 
 export const useAuth = () => {
@@ -28,31 +35,27 @@ export function AuthProvider({ children }) {
   const passwordRef = useRef();
   const passwordConfirmationRef = useRef();
   
+
   const getUserDetails = async () => {
     if (currentUser) {
       try {
         const docRef = await getDocs(collection(db, "users"));
-        const documents = docRef.docs.map(doc => doc.data());
-        const matchingDocu = documents.find(docu=>docu.uid === currentUser.uid)
+        const documents = docRef.docs.map((doc) => doc.data());
+        const matchingDocu = documents.find(
+          (docu) => docu.uid === currentUser.uid
+        );
         return matchingDocu;
-    
-      }
-      
-       catch (error) {
+      } catch (error) {
         console.log("Error getting document:", error);
-      } 
-       
+      }
     }
   };
-
-  
-  
 
   const createUser = async (e) => {
     e.preventDefault();
 
     // TODO add validation before creation
-    
+
     createUserWithEmailAndPassword(
       auth,
       emailRef.current.value,
@@ -60,13 +63,13 @@ export function AuthProvider({ children }) {
     )
       .then(async (userCredential) => {
         console.log(userCredential.user);
-        await setDoc(doc(db, "users", userCredential.user.uid),  {
-                first: nameRef.current.value,
-                lastName: lastNameRef.current.value,
-                email: userCredential.user.email,
-                uid: userCredential.user.uid,
-              });
-        
+        await setDoc(doc(db, "users", userCredential.user.uid), {
+          first: nameRef.current.value,
+          lastName: lastNameRef.current.value,
+          email: userCredential.user.email,
+          uid: userCredential.user.uid,
+        });
+
         navigate("/dashboard");
       })
       .catch((error) => {
@@ -98,6 +101,18 @@ export function AuthProvider({ children }) {
     auth.signOut();
     setStopLoading(true);
   };
+
+  
+  const getUserImages = () =>{
+    const userImagesRef = ref(storage,  `${currentUser.uid}/`);
+    listAll(userImagesRef).then((response)=>{
+      console.log(response);
+    })
+  }
+  if(currentUser) getUserImages();
+  const storeUserImagesLocally = () =>{
+
+  }
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {

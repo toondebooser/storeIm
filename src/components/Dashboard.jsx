@@ -11,12 +11,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [images, setImages] = useState(null);
 
-  // useEffect(() => {
-  //   if (images === null) return;
-  //   [...images].map((image) => {
-  //     console.log(image);
-  //   });
-  // }, [images]);
+ 
 
   (async () => {
     const document = await getUserDetails();
@@ -44,7 +39,7 @@ export default function Dashboard() {
   }
 
   };
-
+  
   return (
     <>
       {loading ? (
@@ -68,6 +63,10 @@ export default function Dashboard() {
           Upload
         </button>
       ) : null}
+
+      <div className="slideBox">
+        
+      </div>
     </>
   );
 }
