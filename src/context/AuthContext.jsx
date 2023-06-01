@@ -27,9 +27,7 @@ export function AuthProvider({ children }) {
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmationRef = useRef();
-
   
-
   const getUserDetails = async () => {
     if (currentUser) {
       try {
@@ -75,6 +73,7 @@ export function AuthProvider({ children }) {
         console.log(error);
       });
   };
+
   const loginUser = (e) => {
     e.preventDefault();
 

@@ -11,33 +11,40 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [images, setImages] = useState(null);
 
-  useEffect(() => {
-    if (images === null) return;
-    [...images].map((image) => {
-      console.log(image.name);
-    });
-  }, [images]);
+  // useEffect(() => {
+  //   if (images === null) return;
+  //   [...images].map((image) => {
+  //     console.log(image);
+  //   });
+  // }, [images]);
 
-  const dataFetch = async () => {
+  (async () => {
     const document = await getUserDetails();
     if (document && loading) {
       setLoading(false);
       setUserDetails(document);
     }
-  };
-  dataFetch();
+  })();
 
-  const uploadFile = () => {
+
+  const uploadFile = async () => {
     if (images === null) return alert("Please select at least one image.");
 
-    images.map((image) => {
-      console.log(image.name);
+    try{
+    const uploadImages = [...images].map((image) => {
       const imagesRef = ref(storage, `${currentUser.uid}/${image.name + v4()}`);
-      uploadBytes(imagesRef, image).then(() => {
-        alert("succes");
-      });
+      uploadBytes(imagesRef, image)
     });
+    await Promise.all(uploadImages);
+    setImages(null)
+  }
+  catch (error){
+    console.log(error);
+    alert("Faild to upload your images");
+  }
+
   };
+
   return (
     <>
       {loading ? (
