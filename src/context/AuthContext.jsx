@@ -102,17 +102,21 @@ export function AuthProvider({ children }) {
     setStopLoading(true);
   };
 
+  const storeUserImagesLocally = (list) =>{
+    localStorage.setItem(`${currentUser.uid}`, JSON.stringify(list))
+
+  }
   
   const getUserImages = () =>{
     const userImagesRef = ref(storage,  `${currentUser.uid}/`);
     listAll(userImagesRef).then((response)=>{
-      console.log(response);
+      if(response.items.length == 0) return;
+      storeUserImagesLocally(response)
     })
   }
-  if(currentUser) getUserImages();
-  const storeUserImagesLocally = () =>{
 
-  }
+  if(currentUser) getUserImages();
+
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {

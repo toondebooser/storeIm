@@ -10,15 +10,20 @@ export default function Dashboard() {
   const [userDetails, setUserDetails] = useState();
   const [loading, setLoading] = useState(true);
   const [images, setImages] = useState(null);
+  const [localStoredImages, setLocalStoredImages] = useState(null);
 
- 
+
 
   (async () => {
     const document = await getUserDetails();
     if (document && loading) {
       setLoading(false);
       setUserDetails(document);
-    }
+      if (localStorage.getItem(`${currentUser.uid}`)) {
+        const setStorage = JSON.parse(localStorage.getItem(`${currentUser.uid}`));
+        setLocalStoredImages(setStorage)
+      }
+    };
   })();
 
 
