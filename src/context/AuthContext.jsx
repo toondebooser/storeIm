@@ -107,7 +107,7 @@ export function AuthProvider({ children }) {
 
   }
   
-  const getUserImages = () =>{
+  const getUserImages = async () =>{
     const userImagesRef = ref(storage,  `${currentUser.uid}/`);
     listAll(userImagesRef).then((response)=>{
       if(response.items.length == 0) return;
