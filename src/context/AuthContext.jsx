@@ -102,8 +102,21 @@ export function AuthProvider({ children }) {
     setStopLoading(true);
   };
 
-  const storeUserImagesLocally = (list) =>{
-    localStorage.setItem(`${currentUser.uid}`, JSON.stringify(list))
+  const storeUserImagesLocally = (image) =>{
+    const storedData = localStorage.getItem(`${currentUser.uid}`)
+    let imageArray = [];
+    
+    if (storedData) {
+      imageArray = JSON.parse(storedData);
+      const imageExists = imageArray.some(item => item === image);
+      console.log(imageExists);
+      if (imageExists) return;
+     imageArray.push(image)
+    }
+    else{
+      imageArray.push(image);
+    }
+    localStorage.setItem(`${currentUser.uid}`, JSON.stringify(imageArray))
 
   }
   
@@ -111,7 +124,11 @@ export function AuthProvider({ children }) {
     const userImagesRef = ref(storage,  `${currentUser.uid}/`);
     listAll(userImagesRef).then((response)=>{
       if(response.items.length == 0) return;
-      storeUserImagesLocally(response)
+      response.items.map((item)=>{
+        getDownloadURL(item).then((response)=>{
+          storeUserImagesLocally(response)
+        });
+      })
     })
   }
 

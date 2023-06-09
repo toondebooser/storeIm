@@ -39,8 +39,6 @@ margin: 20px;
 max-width: 400px;
 background-color: lightblue;
 
-/* animation: zoom 0.5s forwards;
-animation-play-state: running; */
 }
 .footer{
     text-align: center;
@@ -155,9 +153,9 @@ a:hover{
     height: 150px;
     align-self: end;
     justify-self: center;
-    animation:alternate infinite breath 1s ease-out;
+    /* animation:alternate infinite breath 1s ease-out;
 
-    animation-play-state: running;
+    animation-play-state: running; */
 }
 .slideBox{
     
@@ -213,7 +211,7 @@ a:hover{
     text-align: center;
     font-weight: lighter;
 }
-@keyframes zoom {
+/* @keyframes zoom {
     0% {
         transform: translateY(-280px) translateX(-100px) scale(0);
         z-index: -1;
@@ -224,7 +222,7 @@ a:hover{
         z-index: 0;
         opacity: 100%;
       }
-}
+} */
 @keyframes breath {
     0%{
         transform: translateY(0px) scale(1)

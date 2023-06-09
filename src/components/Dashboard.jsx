@@ -10,7 +10,7 @@ export default function Dashboard() {
   const [userDetails, setUserDetails] = useState();
   const [loading, setLoading] = useState(true);
   const [images, setImages] = useState(null);
-  const [localStoredImages, setLocalStoredImages] = useState(null);
+  const [localStoredImages, setLocalStoredImages] = useState([]);
 
   (async () => {
     const document = await getUserDetails();
@@ -18,22 +18,23 @@ export default function Dashboard() {
       setLoading(false);
       setUserDetails(document);
       if (localStorage.getItem(`${currentUser.uid}`)) {
-        const setStorage = JSON.parse(
+        const setStorage = 
           localStorage.getItem(`${currentUser.uid}`)
-        );
+        
         setLocalStoredImages(setStorage);
       }
     }
+    
   })();
 
   useEffect(() => {
-    console.log(localStoredImages);
+    // console.log(localStoredImages);
     if (localStoredImages) {
-      localStoredImages.items.map((image) => {
-        const imageDiv = document.createElement("div");
-        imageDiv.classList.add("slideItem");
-        imageDiv.innerHTML = image;
-      });
+      // localStoredImages.map((image) => {
+      //   const imageDiv = document.createElement("div");
+      //   imageDiv.classList.add("slideItem");
+      //   getDownloadURL(image).then((url)=>{console.log(url);})
+      // });
     }
   }, [localStoredImages]);
 
