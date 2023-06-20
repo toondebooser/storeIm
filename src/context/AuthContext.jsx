@@ -109,13 +109,11 @@ export function AuthProvider({ children }) {
     if (storedData) {
       imageArray = JSON.parse(storedData);
       const imageExists = imageArray.some(item => item === image);
-      console.log(imageExists);
       if (imageExists) return;
-     imageArray.push(image)
+      
     }
-    else{
-      imageArray.push(image);
-    }
+   
+    imageArray.push(image)
     localStorage.setItem(`${currentUser.uid}`, JSON.stringify(imageArray))
 
   }
@@ -162,6 +160,7 @@ export function AuthProvider({ children }) {
     createUser,
     loginUser,
     logout,
+    getUserImages,
   };
   return <AuthContext.Provider value={props}>{children}</AuthContext.Provider>;
 }

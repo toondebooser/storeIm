@@ -6,12 +6,12 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
 
 export default function Dashboard() {
-  const { getUserDetails, currentUser } = useAuth();
+  const { getUserDetails, currentUser, getUserImages } = useAuth();
   const [userDetails, setUserDetails] = useState();
   const [loading, setLoading] = useState(true);
   const [images, setImages] = useState(null);
   const [localStoredImages, setLocalStoredImages] = useState([]);
-
+  if(images) console.log(images);
   (async () => {
     const document = await getUserDetails();
     if (document && loading) {
@@ -28,15 +28,20 @@ export default function Dashboard() {
   })();
 
   useEffect(() => {
-    // console.log(localStoredImages);
-    if (localStoredImages) {
-      // localStoredImages.map((image) => {
-      //   const imageDiv = document.createElement("div");
-      //   imageDiv.classList.add("slideItem");
-      //   getDownloadURL(image).then((url)=>{console.log(url);})
-      // });
-    }
-  }, [localStoredImages]);
+    if (localStoredImages.length !== 0) {
+      const images = JSON.parse(localStoredImages)
+      const slideBox = document.querySelector(".slideBox")
+      images.map((image)=>{
+        console.log(image)
+        const img = document.createElement("img");
+        img.classList.add("slideItem");
+        img.setAttribute("src", image);
+        img.setAttribute("alt", "you fucked up");
+        slideBox.appendChild(img);
+
+      })
+      }
+    }, [localStoredImages]);
 
   const uploadFile = async () => {
     if (images === null) return alert("Please select at least one image.");
@@ -81,7 +86,9 @@ export default function Dashboard() {
         </button>
       ) : null}
 
-      <div className="slideBox"></div>
+      <div className="slideBox">
+
+      </div>
     </>
   );
 }

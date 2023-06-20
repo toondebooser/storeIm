@@ -112,7 +112,7 @@ input{
     
 }
 .uploadButton{
-    grid-row: 3/4;
+    grid-row: 4/5;
     grid-column: 1/13;
     align-self: start;
     width: 100px;
@@ -162,11 +162,12 @@ a:hover{
     grid-column: 1/13;
     grid-row: 3/4;
     display: flex;
-    overflow-x: auto;   
+    overflow-x: auto; 
 }
 .slideItem{
-    width: 200px;
-    height: 30px;
+    width: auto;
+    height: 200px;
+    border-radius: 10px;
     flex-shrink: 0; 
     margin-right: 10px; 
     
