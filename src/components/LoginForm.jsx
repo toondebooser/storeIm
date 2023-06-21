@@ -37,8 +37,7 @@ export default function LoginForm() {
       <div className="haveNoAccount">Don't have an account?</div>
       <br />
       <Link className="goToSignup" to={"/Signup"}>
-        {" "}
-        Create one{" "}
+        Create one
       </Link>
     </>
   );

@@ -1,8 +1,8 @@
 import { documentId } from "firebase/firestore";
 import { useAuth } from "../context/AuthContext";
-import { useState, useEffect } from "react";
+import { useState, useEffect,useRef } from "react";
 import { storage } from "../firebase";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { ref, uploadBytes, uploadBytesResumable } from "firebase/storage";
 import { v4 } from "uuid";
 
 export default function Dashboard() {
@@ -11,7 +11,9 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [images, setImages] = useState(null);
   const [localStoredImages, setLocalStoredImages] = useState([]);
+  const inputRef = useRef(null)
   if(images) console.log(images);
+
   (async () => {
     const document = await getUserDetails();
     if (document && loading) {
@@ -32,36 +34,47 @@ export default function Dashboard() {
       const images = JSON.parse(localStoredImages)
       const slideBox = document.querySelector(".slideBox")
       images.map((image)=>{
-        console.log(image)
         const img = document.createElement("img");
         img.classList.add("slideItem");
         img.setAttribute("src", image);
-        img.setAttribute("alt", "you fucked up");
+        img.setAttribute("alt", "Something went wrong");
         slideBox.appendChild(img);
 
       })
       }
     }, [localStoredImages]);
 
+
   const uploadFile = async () => {
     if (images === null) return alert("Please select at least one image.");
-
+    setLoading(true)
+    if (inputRef.current) {
+      inputRef.current.value = '';
+    }
     try {
-      const uploadImages = [...images].map((image) => {
+       [...images].map((image) => {
         const imagesRef = ref(
           storage,
           `${currentUser.uid}/${image.name + v4()}`
         );
-        uploadBytes(imagesRef, image);
+        const uploadTask = uploadBytesResumable(imagesRef, image);
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            console.log(snapshot.bytesTransferred)
+          },
+          (error) => {
+            console.log(error)
+          },)
       });
-      await Promise.all(uploadImages);
-      setImages(null);
     } catch (error) {
-      console.log(error);
       alert("Faild to upload your images");
     }
+      finally{
+      setImages(null);
+    }
   };
-
+ 
   return (
     <>
       {loading ? (
@@ -72,12 +85,13 @@ export default function Dashboard() {
         </h2>
       )}
       <input
+      ref={inputRef}
         className="fileUpload"
         accept="image/*"
         multiple
         type="file"
         onChange={(e) => {
-          setImages(e.target.files);
+          setImages([...e.target.files]); 
         }}
       />
       {images ? (
