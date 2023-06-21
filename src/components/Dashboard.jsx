@@ -11,7 +11,11 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [images, setImages] = useState(null);
   const [localStoredImages, setLocalStoredImages] = useState([]);
+  const [uploading, setUploading] = useState(false)
+  const [uploadProgress, setUploadProgress] = useState(null);
+  const [imagesInTransit, setImagesInTransit] = useState("")
   const inputRef = useRef(null)
+
   if(images) console.log(images);
 
   (async () => {
@@ -47,7 +51,7 @@ export default function Dashboard() {
 
   const uploadFile = async () => {
     if (images === null) return alert("Please select at least one image.");
-    setLoading(true)
+    setUploading(true)
     if (inputRef.current) {
       inputRef.current.value = '';
     }
@@ -61,7 +65,26 @@ export default function Dashboard() {
         uploadTask.on(
           "state_changed",
           (snapshot) => {
-            console.log(snapshot.bytesTransferred)
+             
+            setImagesInTransit(prevState => {
+              const newImage = new Set(prevState);
+              if (newImage.has(image.name)) return;
+             newImage.add(image.name)
+             return Array.from(newImage);
+              })
+
+            console.log(imagesInTransit)
+            console.log(image.name);
+              
+            
+            const progress = Math.round(
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            );
+            setUploadProgress(progress);
+            if (progress == 100) {
+              setUploading(false);
+              setUploadProgress(null);
+            }
           },
           (error) => {
             console.log(error)
@@ -72,9 +95,9 @@ export default function Dashboard() {
     }
       finally{
       setImages(null);
+      
     }
   };
- 
   return (
     <>
       {loading ? (
