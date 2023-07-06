@@ -34,7 +34,9 @@ export function AuthProvider({ children }) {
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmationRef = useRef();
-  
+  const [foo, setFoo] = useState(null)
+
+  console.log(foo);
 
   const getUserDetails = async () => {
     if (currentUser) {
@@ -102,36 +104,34 @@ export function AuthProvider({ children }) {
     setStopLoading(true);
   };
 
-  const storeUserImagesLocally = (image) =>{
-    const storedData = localStorage.getItem(`${currentUser.uid}`)
+  const storeUserImagesLocally = async (image) => {
+    const storedData = await localStorage.getItem(`${currentUser.uid}`);
     let imageArray = [];
-    
+
     if (storedData) {
       imageArray = JSON.parse(storedData);
-      const imageExists = imageArray.some(item => item === image);
+      const imageExists = imageArray.some((item) => item === image);
       if (imageExists) return;
-      
     }
-   
-    imageArray.push(image)
-    localStorage.setItem(`${currentUser.uid}`, JSON.stringify(imageArray))
+    imageArray.push(image);
+    await localStorage.setItem(
+      `${currentUser.uid}`,
+      JSON.stringify(imageArray)
+    );
+  };
 
-  }
-  
-  const getUserImages = async () =>{
-    const userImagesRef = ref(storage,  `${currentUser.uid}/`);
-    listAll(userImagesRef).then((response)=>{
-      if(response.items.length == 0) return;
-      response.items.map((item)=>{
-        getDownloadURL(item).then((response)=>{
-          storeUserImagesLocally(response)
-        });
-      })
-    })
-  }
+  const getUserImages = async () => {
+    const userImagesRef = ref(storage, `${currentUser.uid}/`);
+    listAll(userImagesRef).then((response) => {
+      if (response.items.length == 0) return;
+      response.items.map(async (item) => {
+        const url = await getDownloadURL(item);
+        await storeUserImagesLocally(url);
+      });
+    });
+  };
 
-  if(currentUser) getUserImages();
-
+  if (currentUser) getUserImages();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -148,6 +148,8 @@ export function AuthProvider({ children }) {
   }, []);
 
   const props = {
+    setFoo,
+    foo,
     currentUser,
     stopLoading,
     loggedOut,
