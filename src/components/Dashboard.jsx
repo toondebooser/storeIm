@@ -17,7 +17,6 @@ export default function Dashboard() {
   const inputRef = useRef(null);
 
   if (images) console.log(images);
-setFoo(5);
 
 
   // const firebase=>Data = async () => {
@@ -57,7 +56,7 @@ setFoo(5);
 
   useEffect(() => {
     console.log(localStoredImages);
-    if (localStoredImages?.length > 0) {
+    if (localStoredImages.length > 0) {
       const images = JSON.parse(localStoredImages);
       const slideBox = document.querySelector(".slideBox");
       images.map((image) => {

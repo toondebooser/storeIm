@@ -34,9 +34,7 @@ export function AuthProvider({ children }) {
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmationRef = useRef();
-  const [foo, setFoo] = useState(null)
 
-  console.log(foo);
 
   const getUserDetails = async () => {
     if (currentUser) {
@@ -105,7 +103,7 @@ export function AuthProvider({ children }) {
   };
 
   const storeUserImagesLocally = async (image) => {
-    const storedData = await localStorage.getItem(`${currentUser.uid}`);
+    const storedData =  localStorage.getItem(`${currentUser.uid}`);
     let imageArray = [];
 
     if (storedData) {
@@ -114,7 +112,7 @@ export function AuthProvider({ children }) {
       if (imageExists) return;
     }
     imageArray.push(image);
-    await localStorage.setItem(
+     localStorage.setItem(
       `${currentUser.uid}`,
       JSON.stringify(imageArray)
     );
@@ -148,8 +146,6 @@ export function AuthProvider({ children }) {
   }, []);
 
   const props = {
-    setFoo,
-    foo,
     currentUser,
     stopLoading,
     loggedOut,
