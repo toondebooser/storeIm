@@ -6,19 +6,27 @@ import { ref, uploadBytes, uploadBytesResumable } from "firebase/storage";
 import { v4 } from "uuid";
 
 export default function Dashboard() {
-  const { getUserDetails, currentUser, getUserImages, setFoo } = useAuth();
-  const [userDetails, setUserDetails] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [images, setImages] = useState(null);
-  const [localStoredImages, setLocalStoredImages] = useState([]);
+  const {
+    images,
+    localStoredImages,
+    setLocalStoredImages,
+    setImages,
+    getUserDetails,
+    currentUser,
+    getUserImages,
+    loading,
+    setLoading,
+    userSession,
+    setUserSession,
+    userDetails,
+    setUserDetails,
+    userImages
+  } = useAuth();
+
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(null);
   const [imagesInTransit, setImagesInTransit] = useState("");
   const inputRef = useRef(null);
-
-  if (images) console.log(images);
-console.log(currentUser);
-
   // const firebase=>Data = async () => {
   //   if (userDetails == null && loading) {
   //     //const document = await getUserDetails();
@@ -35,39 +43,55 @@ console.log(currentUser);
   //   setLoading(false);
   // };
 
-  const setLocalStorageImages = async () => {
-    const images =  localStorage.getItem(`${currentUser.uid}`);
-    console.log(images);
-    setLocalStoredImages(images);
-  };
+  // const setLocalStorageImages = async () => {
+
+  //   const images =  localStorage.getItem(`${currentUser.uid}`);
+  //   console.log(images);
+  //   setLocalStoredImages(images);
+  // };
+  // if(localStoredImages.length < 0) setLocalStorageImages()
+  useEffect(()=>{
+!userDetails? setUserSession(false): null
+  },[])
 
   useEffect(() => {
     const foo = async () => {
+      setLoading(true)
+      console.log("useEffect triggertd");
       const document = await getUserDetails();
       setUserDetails(document);
       setLoading(false);
+      setUserSession(true);
       if (document && currentUser) {
         const images = localStorage.getItem(`${currentUser.uid}`);
         setLocalStoredImages(images);
       }
     };
-    foo();
+    if (!userSession) foo();
+    console.log("userSession ", userSession);
   }, [currentUser]);
 
   useEffect(() => {
-    console.log(localStoredImages);
-    if (localStoredImages.length > 0) {
-      const images = JSON.parse(localStoredImages);
-      const slideBox = document.querySelector(".slideBox");
-      images.map((image) => {
-        const img = document.createElement("img");
-        img.classList.add("slideItem");
-        img.setAttribute("src", image);
-        img.setAttribute("alt", "Something went wrong");
-        slideBox.appendChild(img);
-      });
+    if (currentUser) {
+      const images = localStorage.getItem(`${currentUser.uid}`);
+      setLocalStoredImages(images);
     }
-  }, [localStoredImages]);
+
+    if (userImages) {
+
+      const images = [...userImages]
+      const slideBox = document.querySelector(".slideBox");
+const childCount = slideBox.childElementCount;
+if(childCount == images.length) return;
+images.map((image) => {
+  const img = document.createElement("img");
+  img.classList.add("slideItem");
+  img.setAttribute("src", image);
+  img.setAttribute("alt", "Something went wrong");
+  slideBox.appendChild(img);
+});
+    }
+  }, []);
 
   const uploadFile = async () => {
     if (images === null) return alert("Please select at least one image.");
@@ -150,11 +174,9 @@ console.log(currentUser);
         <button className="uploadButton" onClick={() => uploadFile()}>
           Upload
         </button>
-        
       ) : null}
 
-      <div className="slideBox">
-      </div>
+      <div className="slideBox"></div>
     </>
   );
 }

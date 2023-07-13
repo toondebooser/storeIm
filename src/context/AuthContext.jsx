@@ -27,17 +27,28 @@ export function AuthProvider({ children }) {
   const navigate = useNavigate();
 
   const [currentUser, setCurrentUser] = useState(null);
-  const [stopLoading, setStopLoading] = useState(false);
+  const [localStoredImages, setLocalStoredImages] = useState([]);
+  const [userImages, setUserImages]=useState([]);
+  const [headerLoading, setHeaderLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [userSession, setUserSession] = useState(false);
   const [loggedOut, setLoggedOut] = useState(false);
+  const [userDetails, setUserDetails] = useState(null);
+  const [images, setImages] = useState(null);
+  const [allImagesDownloaded, setAllImagesDownloaded] = useState(false)
+  
   const nameRef = useRef();
   const lastNameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmationRef = useRef();
 
+  
   const getUserDetails = async () => {
-    // !
+    // !!
     if (currentUser) {
+      
+      console.log("userDetail function activated")
       try {
         const docRef = await getDocs(collection(db, "users"));
         const documents = docRef.docs.map((doc) => doc.data());
@@ -99,55 +110,67 @@ export function AuthProvider({ children }) {
   const logout = () => {
     setLoggedOut(true);
     auth.signOut();
-    setStopLoading(true);
+    setHeaderLoading(true);
   };
 
-  const storeUserImagesLocally = async (image) => {
-    const storedData = localStorage.getItem(`${currentUser.uid}`);
-    let imageArray = [];
+  // const storeUserImagesLocally = async (image) => {
+  //   const storedData = localStorage.getItem(`${currentUser.uid}`);
+  //   let imageArray = [];
 
-    if (storedData) {
-      imageArray = JSON.parse(storedData);
-      const imageExists = imageArray.some((item) => item === image);
-      if (imageExists) return;
-    }
-    imageArray.push(image);
-    localStorage.setItem(`${currentUser.uid}`, JSON.stringify(imageArray));
-  };
+  //   if (storedData) {
+  //     imageArray = JSON.parse(storedData);
+  //     const imageExists = imageArray.some((item) => item === image);
+  //     if (imageExists) return;
+  //   }
+  //   imageArray.push(image);
+  //   localStorage.setItem(`${currentUser.uid}`, JSON.stringify(imageArray));
+  // };
 
   const getUserImages = async () => {
+    let imageArray = [];
     const userImagesRef = ref(storage, `${currentUser.uid}/`);
     listAll(userImagesRef).then((response) => {
+      
       if (response.items.length == 0) return;
       response.items.map(async (item) => {
         const url = await getDownloadURL(item);
-        await storeUserImagesLocally(url);
+        const imageExists = imageArray.some((item) => item === url);
+      if (imageExists) return;
+          imageArray.push(url)
+       imageArray.length == response.items.length? setAllImagesDownloaded(true): setUserImages(imageArray) ;
+  
       });
     });
   };
-
-  // !!
-  if (currentUser) getUserImages();
-
+  if (currentUser && !allImagesDownloaded) getUserImages();
+  console.log(userImages)
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        setStopLoading(true);
         setLoggedOut(false);
         setCurrentUser(user);
       } else {
-        setStopLoading(true);
         setLoggedOut(true);
       }
     });
     return unsubscribe;
   }, []);
-
   const props = {
     currentUser,
-    stopLoading,
+    headerLoading,
+    localStoredImages,
+    setLocalStoredImages,
+    loading,
+    images,
+    setImages,
+    userDetails,
+    setUserDetails,
+    userSession,
+    setUserSession,
+    setLoading,
     loggedOut,
     nameRef,
+    userImages,
     lastNameRef,
     emailRef,
     passwordRef,

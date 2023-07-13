@@ -3,7 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import {Link} from "react-router-dom";
 
 export default function Header() {
-  const { logout, stopLoading, loggedOut, currentUser } = useAuth();
+  const { logout, headerLoading, loggedOut, currentUser } = useAuth();
 
   return (
     <>
@@ -12,7 +12,7 @@ export default function Header() {
           <button onClick={() => logout()}>Logout</button>
         ) : null}
         <Link to={"/"}>Home</Link>
-        {!stopLoading ? (
+        {headerLoading ? (
           <div>...Loading</div>
         ) : !loggedOut ? (
           <Link to={"/Dashboard"}>Dashboard</Link>
