@@ -36,7 +36,7 @@ export function AuthProvider({ children }) {
   const passwordConfirmationRef = useRef();
 
   const getUserDetails = async () => {
-    // !!
+    // !
     if (currentUser) {
       try {
         const docRef = await getDocs(collection(db, "users"));
