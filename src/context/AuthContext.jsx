@@ -35,8 +35,8 @@ export function AuthProvider({ children }) {
   const passwordRef = useRef();
   const passwordConfirmationRef = useRef();
 
-
   const getUserDetails = async () => {
+    // !!
     if (currentUser) {
       try {
         const docRef = await getDocs(collection(db, "users"));
@@ -103,7 +103,7 @@ export function AuthProvider({ children }) {
   };
 
   const storeUserImagesLocally = async (image) => {
-    const storedData =  localStorage.getItem(`${currentUser.uid}`);
+    const storedData = localStorage.getItem(`${currentUser.uid}`);
     let imageArray = [];
 
     if (storedData) {
@@ -112,10 +112,7 @@ export function AuthProvider({ children }) {
       if (imageExists) return;
     }
     imageArray.push(image);
-     localStorage.setItem(
-      `${currentUser.uid}`,
-      JSON.stringify(imageArray)
-    );
+    localStorage.setItem(`${currentUser.uid}`, JSON.stringify(imageArray));
   };
 
   const getUserImages = async () => {
@@ -129,6 +126,7 @@ export function AuthProvider({ children }) {
     });
   };
 
+  // !!
   if (currentUser) getUserImages();
 
   useEffect(() => {

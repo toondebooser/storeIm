@@ -17,7 +17,7 @@ export default function Dashboard() {
   const inputRef = useRef(null);
 
   if (images) console.log(images);
-
+console.log(currentUser);
 
   // const firebase=>Data = async () => {
   //   if (userDetails == null && loading) {
