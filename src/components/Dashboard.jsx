@@ -1,4 +1,5 @@
 import { documentId } from "firebase/firestore";
+import StorageCalculator from "./StorageCalculator";
 import { useAuth } from "../context/AuthContext";
 import { useState, useEffect, useRef } from "react";
 import { storage } from "../firebase";
@@ -7,6 +8,8 @@ import { v4 } from "uuid";
 
 export default function Dashboard() {
   const {
+    userUsedStorage,
+    setUserUsedStorage,
     images,
     setImages,
     getUserDetails,
@@ -21,7 +24,6 @@ export default function Dashboard() {
     userImages,
     allImagesDownloaded
   } = useAuth();
-
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(null);
   const [imagesInTransit, setImagesInTransit] = useState("");
@@ -53,7 +55,11 @@ export default function Dashboard() {
   useEffect(() => {
     !userDetails ? setUserSession(false) : null;
   }, []);
-
+  useEffect(()=>{
+    const result = StorageCalculator(userImages)
+    setUserUsedStorage(result)
+  }, [allImagesDownloaded])
+  console.log(userUsedStorage/(1024*1024));
   useEffect(() => {
     const foo = async () => {
       setLoading(true);

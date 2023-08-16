@@ -152,6 +152,7 @@ export function AuthProvider({ children }) {
     
     
   };
+
  if (currentUser && !userSession) getUserImages();
 
   useEffect(() => {
@@ -167,6 +168,8 @@ export function AuthProvider({ children }) {
   }, []);
 
   const props = {
+    userUsedStorage,
+    setUserUsedStorage,
     allImagesDownloaded,
     currentUser,
     loading,
