@@ -8,8 +8,6 @@ import { v4 } from "uuid";
 export default function Dashboard() {
   const {
     images,
-    localStoredImages,
-    setLocalStoredImages,
     setImages,
     getUserDetails,
     currentUser,
@@ -51,6 +49,7 @@ export default function Dashboard() {
   //   setLocalStoredImages(images);
   // };
   // if(localStoredImages.length < 0) setLocalStorageImages()
+
   useEffect(() => {
     !userDetails ? setUserSession(false) : null;
   }, []);
@@ -62,10 +61,8 @@ export default function Dashboard() {
       const document = await getUserDetails();
       setUserDetails(document);
       setLoading(false);
-      setUserSession(true);
       if (document && currentUser) {
-        const images = localStorage.getItem(`${currentUser.uid}`);
-        setLocalStoredImages(images);
+        setUserSession(true);
       }
     };
     if (!userSession) foo();
@@ -83,13 +80,13 @@ export default function Dashboard() {
       images.map((image) => {
         const img = document.createElement("img");
         img.classList.add("slideItem");
-        img.setAttribute("src", image);
+        img.setAttribute("src", image[0]);
         img.setAttribute("alt", "Something went wrong");
         slideBox.appendChild(img);
       });
     }
   }, [allImagesDownloaded]);
-console.log(allImagesDownloaded);
+
   const uploadFile = async () => {
     if (images === null) return alert("Please select at least one image.");
     setUploading(true);
@@ -134,10 +131,9 @@ console.log(allImagesDownloaded);
             console.log(error);
           },
           async () => {
-            setUploading(false);
+            setLoading(false);
             setUploadProgress(null);
             await getUserImages();
-            await setLocalStoredImages();
           }
         );
       });

@@ -16,7 +16,7 @@ import {
   getDoc,
   setDoc,
 } from "firebase/firestore";
-import { listAll, getDownloadURL, ref } from "firebase/storage";
+import { listAll, getDownloadURL, ref, getMetadata } from "firebase/storage";
 const AuthContext = React.createContext();
 
 export const useAuth = () => {
@@ -27,7 +27,6 @@ export function AuthProvider({ children }) {
   const navigate = useNavigate();
 
   const [currentUser, setCurrentUser] = useState(null);
-  const [localStoredImages, setLocalStoredImages] = useState([]);
   const [userImages, setUserImages]=useState([]);
   const [loading, setLoading] = useState(false);
   const [userSession, setUserSession] = useState(false);
@@ -35,6 +34,7 @@ export function AuthProvider({ children }) {
   const [userDetails, setUserDetails] = useState(null);
   const [images, setImages] = useState(null);
   const [allImagesDownloaded, setAllImagesDownloaded] = useState(false)
+  const [userUsedStorage, setUserUsedStorage] = useState(null);
   
   const nameRef = useRef();
   const lastNameRef = useRef();
@@ -127,25 +127,32 @@ export function AuthProvider({ children }) {
   //   localStorage.setItem(`${currentUser.uid}`, JSON.stringify(imageArray));
   // };
 
-  const getUserImages = async () => {
-    let imageArray = [];
-    const userImagesRef = ref(storage, `${currentUser.uid}/`);
-    listAll(userImagesRef).then((response) => {
-      
-      if (response.items.length == 0) return;
-      response.items.map(async (item) => {
-        const url = await getDownloadURL(item);
-        const imageExists = imageArray.some((item) => item === url);
-      if (imageExists) return;
-          imageArray.push(url)
-       imageArray.length == response.items.length? setAllImagesDownloaded(true): setUserImages(imageArray) ;
   
-      });
-    });
-  };
-  
-  if (currentUser && !allImagesDownloaded) getUserImages();
 
+  const getUserImages = async () => {
+   
+    const userImagesRef = ref(storage, `${currentUser.uid}/`);
+
+      const response = await listAll(userImagesRef);
+  
+      if (response.items.length === 0) {
+        return;
+      }
+  
+      const imageArray = await Promise.all(
+        response.items.map(async (item) => {
+          const url = await getDownloadURL(item);
+          const mb = await getMetadata(item);
+          return [url,mb.size];
+        })
+      );
+      console.log(imageArray);
+      setUserImages(imageArray);
+      setAllImagesDownloaded(true);
+    
+    
+  };
+ if (currentUser && !userSession) getUserImages();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -158,11 +165,10 @@ export function AuthProvider({ children }) {
     });
     return unsubscribe;
   }, []);
+
   const props = {
     allImagesDownloaded,
     currentUser,
-    localStoredImages,
-    setLocalStoredImages,
     loading,
     images,
     setImages,
