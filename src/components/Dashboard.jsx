@@ -22,7 +22,8 @@ export default function Dashboard() {
     userDetails,
     setUserDetails,
     userImages,
-    allImagesDownloaded
+    allImagesDownloaded,
+    setAllimagesDownloaded
   } = useAuth();
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(null);
@@ -55,11 +56,17 @@ export default function Dashboard() {
   useEffect(() => {
     !userDetails ? setUserSession(false) : null;
   }, []);
+
   useEffect(()=>{
-    const result = StorageCalculator(userImages)
-    setUserUsedStorage(result)
+    console.log("trigger")
+    if(!userImages) return;
+    let result = StorageCalculator(userImages)
+    setUserUsedStorage(parseFloat(result.toFixed(2)))
+    result = 0;
   }, [allImagesDownloaded])
-  console.log(userUsedStorage/(1024*1024));
+
+  console.log(userUsedStorage)
+
   useEffect(() => {
     const foo = async () => {
       setLoading(true);
@@ -76,14 +83,16 @@ export default function Dashboard() {
   }, [currentUser]);
 
   useEffect(() => {
-    
-
+    console.log("building triggered");
     if (userImages) {
       const images = [...userImages];
       const slideBox = document.querySelector(".slideBox");
       const childCount = slideBox.childElementCount;
       if (childCount == images.length) return;
-      images.map((image) => {
+      while(slideBox.firstChild){
+        slideBox.removeChild(slideBox.firstChild)
+      }
+        images.map((image) => {
         const img = document.createElement("img");
         img.classList.add("slideItem");
         img.setAttribute("src", image[0]);
@@ -91,11 +100,12 @@ export default function Dashboard() {
         slideBox.appendChild(img);
       });
     }
-  }, [allImagesDownloaded]);
+  }, [userImages]);
 
   const uploadFile = async () => {
     if (images === null) return alert("Please select at least one image.");
     setUploading(true);
+    
     if (inputRef.current) {
       inputRef.current.value = "";
     }
@@ -128,16 +138,16 @@ export default function Dashboard() {
           //   });
 
           //   console.log(imagesInTransit);
-            console.log(image.name);
 
-            console.log(progress);
             setUploadProgress(progress);
+            console.log(uploadProgress);
           },
           (error) => {
             console.log(error);
           },
           async () => {
             setLoading(false);
+            setUploading(false);
             setUploadProgress(null);
             await getUserImages();
           }
@@ -174,7 +184,8 @@ export default function Dashboard() {
         </button>
       ) : null}
 
-      <div className="slideBox"></div>
+      <div className={uploading? "loading":"slideBox"}>
+      </div>
     </>
   );
 }

@@ -25,7 +25,7 @@ export const useAuth = () => {
 
 export function AuthProvider({ children }) {
   const navigate = useNavigate();
-
+console.log("404");
   const [currentUser, setCurrentUser] = useState(null);
   const [userImages, setUserImages]=useState([]);
   const [loading, setLoading] = useState(false);
@@ -146,14 +146,11 @@ export function AuthProvider({ children }) {
           return [url,mb.size];
         })
       );
-      console.log(imageArray);
       setUserImages(imageArray);
       setAllImagesDownloaded(true);
-    
-    
-  };
-
- if (currentUser && !userSession) getUserImages();
+        
+      };
+ if (currentUser && !userSession && !loggedOut) getUserImages();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
