@@ -21,6 +21,7 @@ export default function Dashboard() {
     userDetails,
     setUserDetails,
     userImages,
+    allImagesDownloaded
   } = useAuth();
 
   const [uploading, setUploading] = useState(false);
@@ -87,8 +88,8 @@ export default function Dashboard() {
         slideBox.appendChild(img);
       });
     }
-  }, []);
-
+  }, [allImagesDownloaded]);
+console.log(allImagesDownloaded);
   const uploadFile = async () => {
     if (images === null) return alert("Please select at least one image.");
     setUploading(true);

@@ -159,6 +159,7 @@ export function AuthProvider({ children }) {
     return unsubscribe;
   }, []);
   const props = {
+    allImagesDownloaded,
     currentUser,
     localStoredImages,
     setLocalStoredImages,
