@@ -20,7 +20,7 @@ export default function Dashboard() {
     setUserSession,
     userDetails,
     setUserDetails,
-    userImages
+    userImages,
   } = useAuth();
 
   const [uploading, setUploading] = useState(false);
@@ -50,13 +50,13 @@ export default function Dashboard() {
   //   setLocalStoredImages(images);
   // };
   // if(localStoredImages.length < 0) setLocalStorageImages()
-  useEffect(()=>{
-!userDetails? setUserSession(false): null
-  },[])
+  useEffect(() => {
+    !userDetails ? setUserSession(false) : null;
+  }, []);
 
   useEffect(() => {
     const foo = async () => {
-      setLoading(true)
+      setLoading(true);
       console.log("useEffect triggertd");
       const document = await getUserDetails();
       setUserDetails(document);
@@ -72,24 +72,20 @@ export default function Dashboard() {
   }, [currentUser]);
 
   useEffect(() => {
-    if (currentUser) {
-      const images = localStorage.getItem(`${currentUser.uid}`);
-      setLocalStoredImages(images);
-    }
+    
 
     if (userImages) {
-
-      const images = [...userImages]
+      const images = [...userImages];
       const slideBox = document.querySelector(".slideBox");
-const childCount = slideBox.childElementCount;
-if(childCount == images.length) return;
-images.map((image) => {
-  const img = document.createElement("img");
-  img.classList.add("slideItem");
-  img.setAttribute("src", image);
-  img.setAttribute("alt", "Something went wrong");
-  slideBox.appendChild(img);
-});
+      const childCount = slideBox.childElementCount;
+      if (childCount == images.length) return;
+      images.map((image) => {
+        const img = document.createElement("img");
+        img.classList.add("slideItem");
+        img.setAttribute("src", image);
+        img.setAttribute("alt", "Something went wrong");
+        slideBox.appendChild(img);
+      });
     }
   }, []);
 
@@ -115,19 +111,19 @@ images.map((image) => {
               (snapshot.bytesTransferred / snapshot.totalBytes) * 100
             );
 
-            setImagesInTransit((prevState) => {
-              const newImages = [...prevState];
+          //  setImagesInTransit((prevState) => {
+          //     const newImages = [...prevState];
 
-              const existingImage = newImages.find(
-                (item) => item.name === image.name
-              );
-              if (existingImage) return prevState;
+          //     const existingImage = newImages.find(
+          //       (item) => item.name === image.name
+          //     );
+          //     if (existingImage) return prevState;
 
-              newImages.push({ name: image.name });
-              return newImages;
-            });
+          //     newImages.push({ name: image.name });
+          //     return newImages;
+          //   });
 
-            console.log(imagesInTransit);
+          //   console.log(imagesInTransit);
             console.log(image.name);
 
             console.log(progress);
@@ -140,7 +136,7 @@ images.map((image) => {
             setUploading(false);
             setUploadProgress(null);
             await getUserImages();
-            await setLocalStorageImages();
+            await setLocalStoredImages();
           }
         );
       });
@@ -150,7 +146,6 @@ images.map((image) => {
       setImages(null);
     }
   };
-
   return (
     <>
       {loading ? (

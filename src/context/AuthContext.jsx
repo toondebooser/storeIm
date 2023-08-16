@@ -29,7 +29,6 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [localStoredImages, setLocalStoredImages] = useState([]);
   const [userImages, setUserImages]=useState([]);
-  const [headerLoading, setHeaderLoading] = useState(false);
   const [loading, setLoading] = useState(false);
   const [userSession, setUserSession] = useState(false);
   const [loggedOut, setLoggedOut] = useState(false);
@@ -110,9 +109,11 @@ export function AuthProvider({ children }) {
   const logout = () => {
     setLoggedOut(true);
     auth.signOut();
-    setHeaderLoading(true);
+    setUserDetails(null);
+    setAllImagesDownloaded(false);
+    setUserImages(null);
+    setUserSession(false);
   };
-
   // const storeUserImagesLocally = async (image) => {
   //   const storedData = localStorage.getItem(`${currentUser.uid}`);
   //   let imageArray = [];
@@ -142,8 +143,10 @@ export function AuthProvider({ children }) {
       });
     });
   };
+  
   if (currentUser && !allImagesDownloaded) getUserImages();
-  console.log(userImages)
+
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
@@ -157,7 +160,6 @@ export function AuthProvider({ children }) {
   }, []);
   const props = {
     currentUser,
-    headerLoading,
     localStoredImages,
     setLocalStoredImages,
     loading,
