@@ -144,7 +144,8 @@ const nameRef = useRef();
           return {url:url, size: meta.size, date: Date.parse(meta.timeCreated)};
         })
       );
-      setUserImages(imageArray);
+      const images = imageArray.sort((a,b) => b.date - a.date);
+      setUserImages(images);
         
       };
       console.log(userImages)

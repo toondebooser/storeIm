@@ -27,43 +27,20 @@ export default function Dashboard() {
   const [uploadProgress, setUploadProgress] = useState(null);
   const [imagesInTransit, setImagesInTransit] = useState("");
   const inputRef = useRef(null);
-  // const firebase=>Data = async () => {
-  //   if (userDetails == null && loading) {
-  //     //const document = await getUserDetails();
-  //     //console.log(document);
-  //     if (document && loading) {
-  //       //setUserDetails(document);
-  //       if (localStorage.getItem(`${currentUser.uid}`)) {
-  //         const setStorage = localStorage.getItem(`${currentUser.uid}`);
-
-  //         setLocalStoredImages(setStorage);
-  //       }
-  //     }
-  //   }
-  //   setLoading(false);
-  // };
-
-  // const setLocalStorageImages = async () => {
-
-  //   const images =  localStorage.getItem(`${currentUser.uid}`);
-  //   console.log(images);
-  //   setLocalStoredImages(images);
-  // };
-  // if(localStoredImages.length < 0) setLocalStorageImages()
 
   useEffect(() => {
     !userDetails ? setUserSession(false) : null;
   }, []);
 
-  useEffect(()=>{
-    console.log("calculator trigger")
-    if(!userImages) return;
-    let result = StorageCalculator(userImages)
-    setUserUsedStorage(parseFloat(result.toFixed(2)))
+  useEffect(() => {
+    console.log("calculator trigger");
+    if (!userImages) return;
+    let result = StorageCalculator(userImages);
+    setUserUsedStorage(parseFloat(result.toFixed(2)));
     result = 0;
-  }, [userImages])
+  }, [userImages]);
 
-  console.log(userUsedStorage)
+  console.log(userUsedStorage);
 
   useEffect(() => {
     const foo = async () => {
@@ -82,7 +59,7 @@ export default function Dashboard() {
   useEffect(() => {
     console.log("building triggered");
     if (userImages) {
-      const images = [...userImages].sort((a,b) => b.date - a.date);
+      const images = [...userImages];
       console.log(images);
       const slideBox = document.querySelector(".slideBox");
       const childCount = slideBox.childElementCount;
@@ -91,13 +68,17 @@ export default function Dashboard() {
       while(slideBox.firstChild){
         slideBox.removeChild(slideBox.firstChild)
       }
-      
+
         images.map((image) => {
+        const a = document.createElement("a");
         const img = document.createElement("img");
         img.classList.add("slideItem");
+        a.classList.add("imageLink")
+        a.addEventListener("click", ()=>alert(image.size))
         img.setAttribute("src", image.url);
         img.setAttribute("alt", "Something went wrong");
-        slideBox.appendChild(img);
+        a.appendChild(img)
+        slideBox.appendChild(a);
       });
     }
   }, [userImages]);
@@ -105,7 +86,7 @@ export default function Dashboard() {
   const uploadFile = async () => {
     if (images === null) return alert("Please select at least one image.");
     setUploading(true);
-    
+
     if (inputRef.current) {
       inputRef.current.value = "";
     }
@@ -125,19 +106,19 @@ export default function Dashboard() {
               (snapshot.bytesTransferred / snapshot.totalBytes) * 100
             );
 
-          //  setImagesInTransit((prevState) => {
-          //     const newImages = [...prevState];
+            //  setImagesInTransit((prevState) => {
+            //     const newImages = [...prevState];
 
-          //     const existingImage = newImages.find(
-          //       (item) => item.name === image.name
-          //     );
-          //     if (existingImage) return prevState;
+            //     const existingImage = newImages.find(
+            //       (item) => item.name === image.name
+            //     );
+            //     if (existingImage) return prevState;
 
-          //     newImages.push({ name: image.name });
-          //     return newImages;
-          //   });
+            //     newImages.push({ name: image.name });
+            //     return newImages;
+            //   });
 
-          //   console.log(imagesInTransit);
+            //   console.log(imagesInTransit);
 
             setUploadProgress(progress);
             console.log(uploadProgress);
@@ -184,11 +165,25 @@ export default function Dashboard() {
         </button>
       ) : null}
 
-        <div className={uploading?"slideBox uploading":"slideBox"}>
+      <div className={uploading?"slideBox uploading":"slideBox"}>
         </div>
         <div className={uploading? "loading fadeIn":"notLoading fadeOut"}>
       </div>
+      {/* <div className={uploading ? "slideBox uploading" : "slideBox"}>
+        {userImages?.map((image) => (
+            <a className="imageLink" onClick={() => alert(image.url)}>
 
+            <img
+              className="slideItem"
+              src={image.url}
+              alt="Something went wrong"
+              />
+              </a>
+        ))}
+      </div>
+      <div
+        className={uploading ? "loading fadeIn" : "notLoading fadeOut"}
+      ></div> */}
     </>
   );
 }
