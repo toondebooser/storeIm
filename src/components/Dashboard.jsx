@@ -56,7 +56,7 @@ export default function Dashboard() {
   }, []);
 
   useEffect(()=>{
-    console.log("trigger")
+    console.log("calculator trigger")
     if(!userImages) return;
     let result = StorageCalculator(userImages)
     setUserUsedStorage(parseFloat(result.toFixed(2)))
@@ -68,7 +68,7 @@ export default function Dashboard() {
   useEffect(() => {
     const foo = async () => {
       setLoading(true);
-      console.log("useEffect triggertd");
+      console.log("UserDetailfetch triggered");
       const document = await getUserDetails();
       setUserDetails(document);
       setLoading(false);
@@ -77,7 +77,6 @@ export default function Dashboard() {
       }
     };
     if (!userSession) foo();
-    console.log("userSession ", userSession);
   }, [currentUser]);
 
   useEffect(() => {
@@ -88,9 +87,11 @@ export default function Dashboard() {
       const slideBox = document.querySelector(".slideBox");
       const childCount = slideBox.childElementCount;
       if (childCount == images.length) return;
+
       while(slideBox.firstChild){
         slideBox.removeChild(slideBox.firstChild)
       }
+      
         images.map((image) => {
         const img = document.createElement("img");
         img.classList.add("slideItem");
@@ -183,8 +184,11 @@ export default function Dashboard() {
         </button>
       ) : null}
 
-      <div className={uploading? "loading":"slideBox"}>
+        <div className={uploading?"slideBox uploading":"slideBox"}>
+        </div>
+        <div className={uploading? "loading fadeIn":"notLoading fadeOut"}>
       </div>
+
     </>
   );
 }

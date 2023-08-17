@@ -25,17 +25,18 @@ export const useAuth = () => {
 
 export function AuthProvider({ children }) {
   const navigate = useNavigate();
-console.log("404");
-  const [currentUser, setCurrentUser] = useState(null);
-  const [userImages, setUserImages]=useState([]);
-  const [loading, setLoading] = useState(false);
-  const [userSession, setUserSession] = useState(false);
-  const [loggedOut, setLoggedOut] = useState(false);
-  const [userDetails, setUserDetails] = useState(null);
-  const [images, setImages] = useState(null);
-  const [userUsedStorage, setUserUsedStorage] = useState(null);
-  
-  const nameRef = useRef();
+console.log("404 auth");
+const [currentUser, setCurrentUser] = useState(null);
+const [userImages, setUserImages]=useState([]);
+const [loading, setLoading] = useState(false);
+const [userSession, setUserSession] = useState(false);
+const [loggedOut, setLoggedOut] = useState(false);
+const [userDetails, setUserDetails] = useState(null);
+const [images, setImages] = useState(null);
+const [userUsedStorage, setUserUsedStorage] = useState(null);
+console.log("userSession ", userSession);
+
+const nameRef = useRef();
   const lastNameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -45,8 +46,7 @@ console.log("404");
   const getUserDetails = async () => {
     // !!
     if (currentUser) {
-      
-      console.log("userDetail function activated")
+      console.log("userDetails function activated")
       try {
         const docRef = await getDocs(collection(db, "users"));
         const documents = docRef.docs.map((doc) => doc.data());
