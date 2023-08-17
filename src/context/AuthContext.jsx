@@ -33,7 +33,6 @@ console.log("404");
   const [loggedOut, setLoggedOut] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
   const [images, setImages] = useState(null);
-  const [allImagesDownloaded, setAllImagesDownloaded] = useState(false)
   const [userUsedStorage, setUserUsedStorage] = useState(null);
   
   const nameRef = useRef();
@@ -110,7 +109,6 @@ console.log("404");
     setLoggedOut(true);
     auth.signOut();
     setUserDetails(null);
-    setAllImagesDownloaded(false);
     setUserImages(null);
     setUserSession(false);
   };
@@ -142,14 +140,14 @@ console.log("404");
       const imageArray = await Promise.all(
         response.items.map(async (item) => {
           const url = await getDownloadURL(item);
-          const mb = await getMetadata(item);
-          return [url,mb.size];
+          const meta = await getMetadata(item);
+          return {url:url, size: meta.size, date: Date.parse(meta.timeCreated)};
         })
       );
       setUserImages(imageArray);
-      setAllImagesDownloaded(true);
         
       };
+      console.log(userImages)
  if (currentUser && !userSession && !loggedOut) getUserImages();
 
   useEffect(() => {
@@ -167,7 +165,6 @@ console.log("404");
   const props = {
     userUsedStorage,
     setUserUsedStorage,
-    allImagesDownloaded,
     currentUser,
     loading,
     images,

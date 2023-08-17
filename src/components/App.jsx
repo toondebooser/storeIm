@@ -9,15 +9,10 @@ import LoginForm from "./LoginForm";
 import Dashboard from "./Dashboard";
 import Signup from "./Signup";
 
-// function PrivateRoute({ children }) {
-//   const { currentUser} = useAuth();
 
-//   return currentUser? children :<Navigate to="/" />;
-
-// }
 
 function App() {
-  const { currentUser, loggedOut } = useAuth();
+  const { loggedOut } = useAuth();
   return (
     <>
       <div className="content">

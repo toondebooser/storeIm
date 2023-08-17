@@ -22,8 +22,6 @@ export default function Dashboard() {
     userDetails,
     setUserDetails,
     userImages,
-    allImagesDownloaded,
-    setAllimagesDownloaded
   } = useAuth();
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(null);
@@ -63,7 +61,7 @@ export default function Dashboard() {
     let result = StorageCalculator(userImages)
     setUserUsedStorage(parseFloat(result.toFixed(2)))
     result = 0;
-  }, [allImagesDownloaded])
+  }, [userImages])
 
   console.log(userUsedStorage)
 
@@ -85,7 +83,8 @@ export default function Dashboard() {
   useEffect(() => {
     console.log("building triggered");
     if (userImages) {
-      const images = [...userImages];
+      const images = [...userImages].sort((a,b) => b.date - a.date);
+      console.log(images);
       const slideBox = document.querySelector(".slideBox");
       const childCount = slideBox.childElementCount;
       if (childCount == images.length) return;
@@ -95,7 +94,7 @@ export default function Dashboard() {
         images.map((image) => {
         const img = document.createElement("img");
         img.classList.add("slideItem");
-        img.setAttribute("src", image[0]);
+        img.setAttribute("src", image.url);
         img.setAttribute("alt", "Something went wrong");
         slideBox.appendChild(img);
       });

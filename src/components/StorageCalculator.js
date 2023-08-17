@@ -4,10 +4,8 @@ export default function StorageCalculator(list) {
   let result = 0;
 
   list.forEach((item) => {
-    result += item[1]; 
+    result += item.size; 
   });
-
-  console.log(result);
 
   return result / (1024 * 1024);
 }

@@ -7,7 +7,7 @@ import Footer from "./components/footer.jsx";
 import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  <>
     <BrowserRouter>
     <AuthProvider>
     <Header />
@@ -15,5 +15,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <Footer />
     </AuthProvider>
     </BrowserRouter>
-  </React.StrictMode>
+  </>
 );
