@@ -34,7 +34,7 @@ const [loggedOut, setLoggedOut] = useState(false);
 const [userDetails, setUserDetails] = useState(null);
 const [images, setImages] = useState(null);
 const [userUsedStorage, setUserUsedStorage] = useState(null);
-console.log("userSession ", userSession);
+const [imageClicked, setImageClicked] = useState(null);
 
 const nameRef = useRef();
   const lastNameRef = useRef();
@@ -128,7 +128,7 @@ const nameRef = useRef();
   
 
   const getUserImages = async () => {
-   
+   console.log("image fetcher triggered");
     const userImagesRef = ref(storage, `${currentUser.uid}/`);
 
       const response = await listAll(userImagesRef);
@@ -138,17 +138,24 @@ const nameRef = useRef();
       }
   
       const imageArray = await Promise.all(
-        response.items.map(async (item) => {
+        response.items.map(async (item, index) => {
           const url = await getDownloadURL(item);
           const meta = await getMetadata(item);
           return {url:url, size: meta.size, date: Date.parse(meta.timeCreated)};
         })
       );
       const images = imageArray.sort((a,b) => b.date - a.date);
-      setUserImages(images);
+      const imagesWithNewIndex = images.map((image, index)=>{
+        return{
+          ...image, indexNr: index
+        }
+      })
+        
+      
+      setUserImages(imagesWithNewIndex);
         
       };
-      console.log(userImages)
+      console.log(userImages);
  if (currentUser && !userSession && !loggedOut) getUserImages();
 
   useEffect(() => {
@@ -164,6 +171,8 @@ const nameRef = useRef();
   }, []);
 
   const props = {
+    imageClicked,
+    setImageClicked,
     userUsedStorage,
     setUserUsedStorage,
     currentUser,

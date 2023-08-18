@@ -1,5 +1,6 @@
 import { documentId } from "firebase/firestore";
 import StorageCalculator from "./StorageCalculator";
+import Preview from "./Preview";
 import { useAuth } from "../context/AuthContext";
 import { useState, useEffect, useRef } from "react";
 import { storage } from "../firebase";
@@ -8,6 +9,8 @@ import { v4 } from "uuid";
 
 export default function Dashboard() {
   const {
+    imageClicked,
+    setImageClicked,
     userUsedStorage,
     setUserUsedStorage,
     images,
@@ -26,11 +29,22 @@ export default function Dashboard() {
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(null);
   const [imagesInTransit, setImagesInTransit] = useState("");
+  const [showPreview, setShowPreview] = useState(false);
+ 
   const inputRef = useRef(null);
 
   useEffect(() => {
     !userDetails ? setUserSession(false) : null;
   }, []);
+
+  const openPreview = (imageClicked)=>{
+    setImageClicked(imageClicked);
+    setShowPreview(true);
+  }
+  const closePreview = ()=>{
+    setImageClicked(null);
+    setShowPreview(false);
+  }
 
   useEffect(() => {
     console.log("calculator trigger");
@@ -40,10 +54,9 @@ export default function Dashboard() {
     result = 0;
   }, [userImages]);
 
-  console.log(userUsedStorage);
 
   useEffect(() => {
-    const foo = async () => {
+    const fetchUserDetails = async () => {
       setLoading(true);
       console.log("UserDetailfetch triggered");
       const document = await getUserDetails();
@@ -53,14 +66,13 @@ export default function Dashboard() {
         setUserSession(true);
       }
     };
-    if (!userSession) foo();
+    if (!userSession) fetchUserDetails();
   }, [currentUser]);
 
   useEffect(() => {
     console.log("building triggered");
     if (userImages) {
       const images = [...userImages];
-      console.log(images);
       const slideBox = document.querySelector(".slideBox");
       const childCount = slideBox.childElementCount;
       if (childCount == images.length) return;
@@ -74,7 +86,7 @@ export default function Dashboard() {
         const img = document.createElement("img");
         img.classList.add("slideItem");
         a.classList.add("imageLink")
-        a.addEventListener("click", ()=>alert(image.size))
+        a.addEventListener("click", () => openPreview(image.indexNr))
         img.setAttribute("src", image.url);
         img.setAttribute("alt", "Something went wrong");
         a.appendChild(img)
@@ -90,6 +102,8 @@ export default function Dashboard() {
     if (inputRef.current) {
       inputRef.current.value = "";
     }
+
+    let completedUploads = 0
     try {
       [...images].map((image) => {
         const imagesRef = ref(
@@ -100,46 +114,55 @@ export default function Dashboard() {
         uploadTask.on(
           "state_changed",
           (snapshot) => {
-            setLoading(true);
-            console.log(snapshot.state);
             const progress = Math.round(
               (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-            );
-
-            //  setImagesInTransit((prevState) => {
-            //     const newImages = [...prevState];
-
-            //     const existingImage = newImages.find(
-            //       (item) => item.name === image.name
-            //     );
-            //     if (existingImage) return prevState;
-
-            //     newImages.push({ name: image.name });
-            //     return newImages;
-            //   });
-
-            //   console.log(imagesInTransit);
-
-            setUploadProgress(progress);
-            console.log(uploadProgress);
-          },
-          (error) => {
+              );
+              
+              //  setImagesInTransit((prevState) => {
+                //     const newImages = [...prevState];
+                
+                //     const existingImage = newImages.find(
+                  //       (item) => item.name === image.name
+                  //     );
+                  //     if (existingImage) return prevState;
+                  
+                  //     newImages.push({ name: image.name });
+                  //     return newImages;
+                  //   });
+                  
+                  //   console.log(imagesInTransit);
+                  
+                  setUploadProgress(progress);
+                  console.log(snapshot.state);
+                  
+                },
+                (error) => {
             console.log(error);
           },
+          
           async () => {
-            setLoading(false);
-            setUploading(false);
-            setUploadProgress(null);
-            await getUserImages();
-          }
-        );
-      });
+
+            completedUploads++;
+
+            if (completedUploads === images.length) {
+
+              setUploading(false);
+              setUploadProgress(null);
+              await getUserImages();
+            }
+              
+            }
+            
+            );
+          });
     } catch (error) {
       alert("Faild to upload your images");
     } finally {
       setImages(null);
     }
   };
+
+
   return (
     <>
       {loading ? (
@@ -158,17 +181,19 @@ export default function Dashboard() {
         onChange={(e) => {
           setImages([...e.target.files]);
         }}
-      />
-      {images ? (
+        />
+      {images && (
         <button className="uploadButton" onClick={() => uploadFile()}>
           Upload
         </button>
-      ) : null}
+      )}
 
+        {showPreview&&(<Preview images={userImages} clickedImage={imageClicked} close={closePreview} />)}
       <div className={uploading?"slideBox uploading":"slideBox"}>
         </div>
         <div className={uploading? "loading fadeIn":"notLoading fadeOut"}>
       </div>
+
       {/* <div className={uploading ? "slideBox uploading" : "slideBox"}>
         {userImages?.map((image) => (
             <a className="imageLink" onClick={() => alert(image.url)}>
