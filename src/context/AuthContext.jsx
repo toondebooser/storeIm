@@ -35,6 +35,7 @@ const [userDetails, setUserDetails] = useState(null);
 const [images, setImages] = useState(null);
 const [userUsedStorage, setUserUsedStorage] = useState(null);
 const [imageClicked, setImageClicked] = useState(null);
+const [showPreview, setShowPreview] = useState(false);
 
 const nameRef = useRef();
   const lastNameRef = useRef();
@@ -171,6 +172,8 @@ const nameRef = useRef();
   }, []);
 
   const props = {
+    showPreview,
+    setShowPreview,
     imageClicked,
     setImageClicked,
     userUsedStorage,

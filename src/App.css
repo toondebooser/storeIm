@@ -6,6 +6,7 @@
   }
 html{
     height: 100dvh;
+    display: grid;
     
 }
 body{
@@ -19,6 +20,7 @@ body{
 #root{
 display: flex;
 flex-direction: column;
+margin-right: 10px;
 height: 100dvh;
 }
 
@@ -175,23 +177,35 @@ a:hover{
     margin-right: 10px; 
     
 }
-.arrow {
-    height: 50px;
-    width: 50px;
-    background-color: #424141;
-    position: absolute;
-    border: solid red;
+.left {
+    align-self: center;
+    height: 20px;
+    width: 20px;
+    border: solid white;
     border-width: 0 3px 3px 0;
-    display: inline-block;
     margin: 10px;
+    transform: rotate(135deg);
+  }
+  .right{
+    position: absolute;
+    right: 1px;
+    align-self: center;
+    height: 20px;
+    width: 20px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    margin: 10px;
+    transform: rotate(-45deg);
+
   }
 .previewBox{
     z-index: 1;
     position: absolute;
     display: grid;
+    width: calc(100% - 20px);
     grid-template-columns: 30px auto 30px;
     grid-template-rows: 100%;
-    max-height: 300px;
+    max-height: 340px;
     grid-column: 1/12;
     grid-row: 1/5;
     align-self: center;
@@ -205,6 +219,24 @@ a:hover{
     grid-column: 1/4;
     object-fit: contain;
 }
+.arrowLeft{
+    display: grid;
+    width: 30px;
+    height: 100%;
+    background-color: grey;
+    opacity: 50%;
+    position: absolute;
+}
+.arrowRight{
+    display: grid;
+    width: 30px;
+    height: 100%;
+    justify-self: end;
+    background-color: grey;
+    opacity: 50%;
+    position: absolute;
+}
+
 .imageLink{
     width: max-content;
     margin: 0;
@@ -293,3 +325,9 @@ a:hover{
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
+@media(orientation: landscape){
+    .previewBox{
+        top:5%;
+        left: 1%;
+    }
+}

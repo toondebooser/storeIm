@@ -3,7 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import {Link} from "react-router-dom";
 
 export default function Header() {
-  const { logout, headerLoading, loggedOut, currentUser, loading } = useAuth();
+  const { logout, headerLoading, loggedOut, currentUser, loading, showPreview } = useAuth();
 
   return (
     <>
@@ -20,7 +20,7 @@ export default function Header() {
           <Link to={"/Login"}>Login</Link>
         )}
       </nav>
-      <h1 className="appHeader">Store&lt;Im/&gt; </h1>
+      <h1 className={ showPreview? "appHeader uploading":"appHeader"}>Store&lt;Im/&gt; </h1>
     </>
   );
 }

@@ -9,6 +9,8 @@ import { v4 } from "uuid";
 
 export default function Dashboard() {
   const {
+    showPreview,
+    setShowPreview,
     imageClicked,
     setImageClicked,
     userUsedStorage,
@@ -29,7 +31,7 @@ export default function Dashboard() {
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(null);
   const [imagesInTransit, setImagesInTransit] = useState("");
-  const [showPreview, setShowPreview] = useState(false);
+  
  
   const inputRef = useRef(null);
 
@@ -169,7 +171,7 @@ export default function Dashboard() {
       {loading ? (
         <div className="userWelcomeTitle">...Loading</div>
       ) : (
-        <h2 className="userWelcomeTitle">
+        <h2 className={ showPreview? "userWelcomeTitle uploading":"userWelcomeTitle"}>
           Welcome <br /> {userDetails?.first}
         </h2>
       )}
