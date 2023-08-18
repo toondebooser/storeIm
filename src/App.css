@@ -167,6 +167,7 @@ a:hover{
     transition: opacity 0.5s ease;
 }
 .slideItem{
+    z-index: 0;
     width: auto;
     height: 200px;
     border-radius: 10px;
@@ -185,6 +186,7 @@ a:hover{
     margin: 10px;
   }
 .previewBox{
+    z-index: 1;
     position: absolute;
     grid-column: 1/12;
     margin-right: 10px;

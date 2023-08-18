@@ -189,7 +189,7 @@ export default function Dashboard() {
       )}
 
         {showPreview&&(<Preview images={userImages} clickedImage={imageClicked} close={closePreview} />)}
-      <div className={uploading?"slideBox uploading":"slideBox"}>
+      <div className={uploading || showPreview?"slideBox uploading":"slideBox"}>
         </div>
         <div className={uploading? "loading fadeIn":"notLoading fadeOut"}>
       </div>
