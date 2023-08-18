@@ -161,10 +161,11 @@ export default function Dashboard() {
       setImages(null);
     }
   };
-
-
+  
+  
   return (
     <>
+    {showPreview&&(<Preview images={userImages} clickedImage={imageClicked} close={closePreview} />)}
       {loading ? (
         <div className="userWelcomeTitle">...Loading</div>
       ) : (
@@ -174,7 +175,7 @@ export default function Dashboard() {
       )}
       <input
         ref={inputRef}
-        className="fileUpload"
+        className={ showPreview? "fileUpload uploading":"fileUpload"}
         accept="image/*"
         multiple
         type="file"
@@ -188,7 +189,6 @@ export default function Dashboard() {
         </button>
       )}
 
-        {showPreview&&(<Preview images={userImages} clickedImage={imageClicked} close={closePreview} />)}
       <div className={uploading || showPreview?"slideBox uploading":"slideBox"}>
         </div>
         <div className={uploading? "loading fadeIn":"notLoading fadeOut"}>
