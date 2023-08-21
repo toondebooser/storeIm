@@ -85,12 +85,16 @@ export default function Dashboard() {
         images.map((image) => {
         const a = document.createElement("a");
         const img = document.createElement("img");
+        const mask = document.createElement("img");
+        mask.classList.add("mask")
         img.classList.add("slideItem");
         a.classList.add("imageLink")
         a.addEventListener("click", () => openPreview(image.indexNr))
         img.setAttribute("src", image.url);
         img.setAttribute("alt", "Something went wrong");
+        mask.setAttribute("src","./src/assets/pngfind.com-film-strip-png-532533.png")
         a.appendChild(img)
+        a.appendChild(mask)
         slideBox.appendChild(a);
       });
     }
@@ -190,10 +194,11 @@ export default function Dashboard() {
         </button>
       )}
 
-      <div className={uploading || showPreview?"slideBox uploading":"slideBox"}>
+      
+        <div className={uploading || showPreview?"slideBox uploading":"slideBox"}>
+          </div>
+          <div className={uploading? "loading fadeIn":"notLoading fadeOut"}>
         </div>
-        <div className={uploading? "loading fadeIn":"notLoading fadeOut"}>
-      </div>
 
       {/* <div className={uploading ? "slideBox uploading" : "slideBox"}>
         {userImages?.map((image) => (
