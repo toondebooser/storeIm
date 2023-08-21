@@ -9,13 +9,13 @@ export default function Header() {
     <>
       <nav>
         {currentUser && !loggedOut ? (
-          <button onClick={() => logout()}>Logout</button>
+          <button className={ showPreview? "uploading":null} onClick={() => logout()}>Logout</button>
         ) : null}
-        <Link to={"/"}>Home</Link>
+        <Link  className={ showPreview? "uploading":null} to={"/"}>Home</Link>
         {loading ? (
           <div>...Loading</div>
         ) : !loggedOut ? (
-          <Link to={"/Dashboard"}>Dashboard</Link>
+          <Link className={ showPreview? "uploading":null} to={"/Dashboard"}>Dashboard</Link>
         ) : (
           <Link to={"/Login"}>Login</Link>
         )}

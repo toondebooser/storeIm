@@ -56,7 +56,6 @@ export default function Dashboard() {
     result = 0;
   }, [userImages]);
 
-
   useEffect(() => {
     const fetchUserDetails = async () => {
       setLoading(true);

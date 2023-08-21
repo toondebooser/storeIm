@@ -37,12 +37,13 @@ const goRight = () =>{
 
   
   return (
-    <div className='previewBox'>
+    <div className='previewBox' >
       <div className="arrowLeft" onClick={()=>goLeft()}>
         <div className="left" onClick={()=>goLeft()} ></div>
       </div>
       <img className='previewImage' src={imageArray[currentPic].url} alt="you fucked up" />   
       <div className="arrowRight" onClick={()=>goRight()}>
+        <div className='close' onClick={()=>close()}></div>
         <div className="right" onClick={()=>goRight()}></div></div>      
     </div>
   )

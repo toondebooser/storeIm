@@ -156,7 +156,6 @@ const nameRef = useRef();
       setUserImages(imagesWithNewIndex);
         
       };
-      console.log(userImages);
  if (currentUser && !userSession && !loggedOut) getUserImages();
 
   useEffect(() => {
