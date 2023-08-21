@@ -1,4 +1,5 @@
 import { documentId } from "firebase/firestore";
+import ElementFocus from "./ElementFocus";
 import StorageCalculator from "./StorageCalculator";
 import Preview from "./Preview";
 import { useAuth } from "../context/AuthContext";
@@ -31,18 +32,22 @@ export default function Dashboard() {
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(null);
   const [imagesInTransit, setImagesInTransit] = useState("");
-  
- 
-  const inputRef = useRef(null);
 
+
+  
+  const inputRef = useRef(null);
+  
   useEffect(() => {
     !userDetails ? setUserSession(false) : null;
   }, []);
-
+  
   const openPreview = (imageClicked)=>{
     setImageClicked(imageClicked);
     setShowPreview(true);
-  }
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth" })
+    }
   const closePreview = ()=>{
     setImageClicked(null);
     setShowPreview(false);
@@ -86,6 +91,10 @@ export default function Dashboard() {
         const a = document.createElement("a");
         const img = document.createElement("img");
         const mask = document.createElement("img");
+        const bannerTop = document.createElement("div");
+        const bannerBottom = document.createElement("div");
+        bannerTop.classList.add("whiteBanner","top");
+        bannerBottom.classList.add("whiteBanner", "bottom")
         mask.classList.add("mask")
         img.classList.add("slideItem");
         a.classList.add("imageLink")
@@ -93,8 +102,10 @@ export default function Dashboard() {
         img.setAttribute("src", image.url);
         img.setAttribute("alt", "Something went wrong");
         mask.setAttribute("src","./src/assets/pngfind.com-film-strip-png-532533.png")
+        a.appendChild(bannerTop)
         a.appendChild(img)
         a.appendChild(mask)
+        a.appendChild(bannerBottom)
         slideBox.appendChild(a);
       });
     }

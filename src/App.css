@@ -170,7 +170,7 @@ a:hover{
     transition: opacity 0.5s ease;
 }
 .mask{
-    z-index: 1;
+    z-index: 2;
     position: absolute;
     top: 0;
     left: 0;
@@ -205,6 +205,22 @@ a:hover{
     margin: 10px;
     transform: rotate(-45deg);
 
+  }
+  .whiteBanner{
+    left: 0;
+    top: 0;
+    z-index: 1;
+    height: 30px;
+    width: 100%;
+    position: absolute;
+    background-color: var(--white);
+  }
+  .top{
+    top: 0;
+  }
+  .bottom{
+    top:auto;
+    bottom: 0;
   }
 .previewBox{
     z-index: 1;
@@ -274,11 +290,7 @@ a:hover{
     margin: 0;
     padding: 0;
 }
-.slieBoxContainer{
-    grid-column: 1/13;
-    grid-row: 3/4;
-    overflow-x: auto; 
-}
+
 .loading{
     position: absolute;
     top: 55%;
