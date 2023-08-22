@@ -3,6 +3,7 @@
     --yellow: #ffc000;
     --white: #f2f2f2;
     --Black: #333333;
+    --image-width: 0px;
   }
 html{
     height: 100dvh;
@@ -20,7 +21,6 @@ body{
 #root{
 display: flex;
 flex-direction: column;
-margin-right: 10px;
 height: 100dvh;
 }
 
@@ -275,7 +275,6 @@ a:hover{
   
 .arrowRight{
     border-radius: 5px;
-
     display: grid;
     width: 30px;
     height: 100%;
@@ -284,7 +283,14 @@ a:hover{
     opacity: 50%;
     position: absolute;
 }
+.delete{
+    position: absolute;
+    top: 15%;
+    background-color: red;
+    width: 30px;
+    height: 30px;
 
+}
 .imageLink{
     width: max-content;
     margin: 0;

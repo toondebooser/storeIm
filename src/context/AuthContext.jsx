@@ -142,7 +142,7 @@ const nameRef = useRef();
         response.items.map(async (item, index) => {
           const url = await getDownloadURL(item);
           const meta = await getMetadata(item);
-          return {url:url, size: meta.size, date: Date.parse(meta.timeCreated)};
+          return {url:url, size: meta.size, date: Date.parse(meta.timeCreated), name: meta.name};
         })
       );
       const images = imageArray.sort((a,b) => b.date - a.date);

@@ -101,6 +101,7 @@ export default function Dashboard() {
         a.addEventListener("click", () => openPreview(image.indexNr))
         img.setAttribute("src", image.url);
         img.setAttribute("alt", "Something went wrong");
+
         mask.setAttribute("src","./src/assets/pngfind.com-film-strip-png-532533.png")
         a.appendChild(bannerTop)
         a.appendChild(img)
@@ -181,7 +182,7 @@ export default function Dashboard() {
   
   return (
     <>
-    {showPreview&&(<Preview images={userImages} clickedImage={imageClicked} close={closePreview} />)}
+    {showPreview&&(<Preview images={userImages} clickedImage={imageClicked} close={closePreview}  />)}
       {loading ? (
         <div className="userWelcomeTitle">...Loading</div>
       ) : (
