@@ -1,8 +1,10 @@
 import React from 'react'
+import { useState } from 'react'
 
 export default function Validation() {
-    
+ 
+      
   return (
-    <div>Validation</div>
+      null
   )
 }

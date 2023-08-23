@@ -11,8 +11,9 @@ export default function Signup() {
     passwordRef,
     createUser,
   } = useAuth();
-
   const [name, setName] = useState('');
+  const [nameUnvalid, setNameUnvalid] = useState(false);
+  
 
   const handleNameChange = (event)=>{
     const userInput = event.target.value
@@ -21,8 +22,11 @@ export default function Signup() {
     const validName = testPattern.test(userInput);
     if (validName) {
       console.log("valid");
+      setNameUnvalid(false)
       
     }else{
+      if (userInput == "")  return setNameUnvalid(false);
+      setNameUnvalid(true);
       console.log("unvalid");
     }
   }
@@ -34,7 +38,7 @@ export default function Signup() {
 
         <form onSubmit={createUser}>
           <span className="formElement">
-            <label htmlFor="name" className="label">
+            <label className={nameUnvalid? "unvalid label" : "label"} htmlFor="name">
               Name
             </label>
             <br />
