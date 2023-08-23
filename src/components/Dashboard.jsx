@@ -62,20 +62,6 @@ export default function Dashboard() {
   }, [userImages]);
 
   useEffect(() => {
-    const fetchUserDetails = async () => {
-      setLoading(true);
-      console.log("UserDetailfetch triggered");
-      const document = await getUserDetails();
-      setUserDetails(document);
-      setLoading(false);
-      if (document && currentUser) {
-        setUserSession(true);
-      }
-    };
-    if (!userSession) fetchUserDetails();
-  }, [currentUser]);
-
-  useEffect(() => {
     console.log("building triggered");
     if (userImages) {
       const images = [...userImages];

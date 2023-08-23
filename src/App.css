@@ -96,6 +96,10 @@ form{
     text-align: start;
 }
 
+.unvalid{
+    color: red;
+    
+}
 .fileUpload{
     grid-row: 2/3;
     grid-column: 2/12;

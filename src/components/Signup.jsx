@@ -1,4 +1,6 @@
 import { useAuth } from "../context/AuthContext";
+import { useState } from "react";
+import Validation from "./Validation";
 
 export default function Signup() {
   const {
@@ -10,6 +12,21 @@ export default function Signup() {
     createUser,
   } = useAuth();
 
+  const [name, setName] = useState('');
+
+  const handleNameChange = (event)=>{
+    const userInput = event.target.value
+    setName(userInput);
+    const testPattern = /^[A-Za-z ]+$/;
+    const validName = testPattern.test(userInput);
+    if (validName) {
+      console.log("valid");
+      
+    }else{
+      console.log("unvalid");
+    }
+  }
+  
   return (
     <>
       <div className="card">
@@ -19,15 +36,15 @@ export default function Signup() {
           <span className="formElement">
             <label htmlFor="name" className="label">
               Name
-            </label>{" "}
+            </label>
             <br />
-            <input type="text" name="name" ref={nameRef} />
+            <input type="text" name="name" ref={nameRef} onChange={handleNameChange} />
           </span>
 
           <span className="formElement">
             <label htmlFor="lastName" className="label">
               LastName
-            </label>{" "}
+            </label>
             <br />
             <input type="text" name="lastName" ref={lastNameRef} />
           </span>

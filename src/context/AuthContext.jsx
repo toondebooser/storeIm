@@ -25,29 +25,30 @@ export const useAuth = () => {
 
 export function AuthProvider({ children }) {
   const navigate = useNavigate();
-console.log("404 auth");
-const [currentUser, setCurrentUser] = useState(null);
-const [userImages, setUserImages]=useState([]);
-const [loading, setLoading] = useState(false);
-const [userSession, setUserSession] = useState(false);
-const [loggedOut, setLoggedOut] = useState(false);
-const [userDetails, setUserDetails] = useState(null);
-const [images, setImages] = useState(null);
-const [userUsedStorage, setUserUsedStorage] = useState(null);
-const [imageClicked, setImageClicked] = useState(null);
-const [showPreview, setShowPreview] = useState(false);
+  console.log("404 auth");
+  const [currentUser, setCurrentUser] = useState(null);
+  const [userImages, setUserImages] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [userSession, setUserSession] = useState(false);
+  const [loggedOut, setLoggedOut] = useState(false);
+  const [userDetails, setUserDetails] = useState(null);
+  const [images, setImages] = useState(null);
+  const [userUsedStorage, setUserUsedStorage] = useState(null);
+  const [imageClicked, setImageClicked] = useState(null);
+  const [showPreview, setShowPreview] = useState(false);
+  const [validCredentials, setValidCredentials]= useState(false)
 
-const nameRef = useRef();
+  const nameRef = useRef();
   const lastNameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmationRef = useRef();
-
   
+
   const getUserDetails = async () => {
     // !!
     if (currentUser) {
-      console.log("userDetails function activated")
+      console.log("userDetails function activated");
       try {
         const docRef = await getDocs(collection(db, "users"));
         const documents = docRef.docs.map((doc) => doc.data());
@@ -113,50 +114,40 @@ const nameRef = useRef();
     setUserImages(null);
     setUserSession(false);
   };
-  // const storeUserImagesLocally = async (image) => {
-  //   const storedData = localStorage.getItem(`${currentUser.uid}`);
-  //   let imageArray = [];
 
-  //   if (storedData) {
-  //     imageArray = JSON.parse(storedData);
-  //     const imageExists = imageArray.some((item) => item === image);
-  //     if (imageExists) return;
-  //   }
-  //   imageArray.push(image);
-  //   localStorage.setItem(`${currentUser.uid}`, JSON.stringify(imageArray));
-  // };
-
-  
 
   const getUserImages = async () => {
-   console.log("image fetcher triggered");
+    console.log("image fetcher triggered");
     const userImagesRef = ref(storage, `${currentUser.uid}/`);
 
-      const response = await listAll(userImagesRef);
-  
-      if (response.items.length === 0) {
-        return;
-      }
-  
-      const imageArray = await Promise.all(
-        response.items.map(async (item, index) => {
-          const url = await getDownloadURL(item);
-          const meta = await getMetadata(item);
-          return {url:url, size: meta.size, date: Date.parse(meta.timeCreated), name: meta.name};
-        })
-      );
-      const images = imageArray.sort((a,b) => b.date - a.date);
-      const imagesWithNewIndex = images.map((image, index)=>{
-        return{
-          ...image, indexNr: index
-        }
+    const response = await listAll(userImagesRef);
+
+    if (response.items.length === 0) {
+      return;
+    }
+
+    const imageArray = await Promise.all(
+      response.items.map(async (item, index) => {
+        const url = await getDownloadURL(item);
+        const meta = await getMetadata(item);
+        return {
+          url: url,
+          size: meta.size,
+          date: Date.parse(meta.timeCreated),
+          name: meta.name,
+        };
       })
-        
-      
-      setUserImages(imagesWithNewIndex);
-        
+    );
+    const images = imageArray.sort((a, b) => b.date - a.date);
+    const imagesWithNewIndex = images.map((image, index) => {
+      return {
+        ...image,
+        indexNr: index,
       };
- if (currentUser && !userSession && !loggedOut) getUserImages();
+    });
+
+    setUserImages(imagesWithNewIndex);
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -170,6 +161,20 @@ const nameRef = useRef();
     return unsubscribe;
   }, []);
 
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      setLoading(true);
+      console.log("UserDetailfetch triggered");
+      const document = await getUserDetails();
+      setUserDetails(document);
+      setLoading(false);
+      if (document && currentUser) {
+        setUserSession(true);
+        getUserImages()
+      }
+    };
+    if (!userSession) fetchUserDetails();
+  }, [currentUser]);
   const props = {
     showPreview,
     setShowPreview,
