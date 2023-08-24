@@ -84,6 +84,18 @@ form{
     color: var(--Black)
     
 }
+.password{
+    grid-column: 2/12;
+    text-align: left;
+    justify-self: center;
+    color: var(--Black)
+}
+.passwordConfirmation{
+    grid-column: 2/12;
+    text-align: left;
+    justify-self: center;
+    color: var(--Black)
+}
 .userWelcomeTitle{
     grid-column: 2/12;
     justify-self: center;
@@ -95,10 +107,7 @@ form{
     text-align: start;
 }
 
-.unvalid{
-    color: red;
 
-}
 .fileUpload{
     grid-row: 2/3;
     grid-column: 2/12;
@@ -314,18 +323,7 @@ a:hover{
 .uploading{
     opacity: 50%;
 }
-.password{
-    grid-column: 2/12;
-    text-align: left;
-    justify-self: center;
-    color: var(--Black)
-}
-.passwordConfirmation{
-    grid-column: 2/12;
-    text-align: left;
-    justify-self: center;
-    color: var(--Black)
-}
+
 .submit{
     grid-column: 2/12;
     justify-self: center;
@@ -353,6 +351,10 @@ a:hover{
     padding-bottom: 5px;
     text-align: center;
     font-weight: lighter;
+}
+.unvalid{
+    color: red;
+
 }
 /* @keyframes zoom {
     0% {

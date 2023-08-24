@@ -6,16 +6,16 @@ const validationResponse = (valid, userInput) => {
     return true;
   }
 };
-const regex = [
-  { letters: /^[A-Za-z ]+$/ },
-  { email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/ },
-  {password: /^(?=.*[A-Z])(?=.*\d).{8,}$/}
-];
+const regex = 
+  {letters: /^[A-Za-z ]+$/ ,
+  email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/ ,
+  password: /^(?=.*[A-Z])(?=.*\d).{8,}$/}
+;
+
 const validateInput = (input, validationType) => {
   
-  const regexPattern = regex.find( pattern => pattern[validationType]);
-  console.log(regexPattern);
-  const validation = regexPattern[validationType].test(input);
+  const regexPattern = regex[validationType];
+  const validation = regexPattern.test(input);
   return validation;
 };
 
