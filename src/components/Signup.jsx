@@ -1,6 +1,7 @@
 import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 import Validation from "./Validation";
+import { validate } from "uuid";
 
 export default function Signup() {
   const {
@@ -10,27 +11,28 @@ export default function Signup() {
     lastNameRef,
     passwordRef,
     createUser,
+    nameUnvalid,
+    setNameUnvalid,
+    setName
   } = useAuth();
-  const [name, setName] = useState('');
-  const [nameUnvalid, setNameUnvalid] = useState(false);
   
 
-  const handleNameChange = (event)=>{
-    const userInput = event.target.value
-    setName(userInput);
-    const testPattern = /^[A-Za-z ]+$/;
-    const validName = testPattern.test(userInput);
-    if (validName) {
-      console.log("valid");
-      setNameUnvalid(false)
-      
-    }else{
-      if (userInput == "")  return setNameUnvalid(false);
-      setNameUnvalid(true);
-      console.log("unvalid");
-    }
-  }
-  
+  const handleNameChange = (event) => {
+    const userInput = event.target.value;
+    const validate = Validation("name", userInput);
+    setNameUnvalid(validate);
+    // const testPattern = /^[A-Za-z ]+$/;
+    // const validName = testPattern.test(userInput);
+    // if (validName) {
+    //   console.log("valid");
+    //   setNameUnvalid(false);
+    // } else {
+    //   if (userInput == "") return setNameUnvalid(false);
+    //   setNameUnvalid(true);
+    //   console.log("unvalid");
+    // }
+  };
+
   return (
     <>
       <div className="card">
@@ -38,11 +40,19 @@ export default function Signup() {
 
         <form onSubmit={createUser}>
           <span className="formElement">
-            <label className={nameUnvalid? "unvalid label" : "label"} htmlFor="name">
-              Name
+            <label
+              className={nameUnvalid ? "unvalid label" : "label"}
+              htmlFor="name"
+            >
+              Name {nameUnvalid && "* unvalid name"}
             </label>
             <br />
-            <input type="text" name="name" ref={nameRef} onChange={handleNameChange} />
+            <input
+              type="text"
+              name="name"
+              ref={nameRef}
+              onChange={handleNameChange}
+            />
           </span>
 
           <span className="formElement">

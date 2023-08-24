@@ -54,8 +54,8 @@ export default function Dashboard() {
   }
 
   useEffect(() => {
-    console.log("calculator trigger");
     if (!userImages) return;
+    console.log("calculator trigger");
     let result = StorageCalculator(userImages);
     setUserUsedStorage(parseFloat(result.toFixed(2)));
     result = 0;

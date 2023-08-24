@@ -36,7 +36,9 @@ export function AuthProvider({ children }) {
   const [userUsedStorage, setUserUsedStorage] = useState(null);
   const [imageClicked, setImageClicked] = useState(null);
   const [showPreview, setShowPreview] = useState(false);
-  const [validCredentials, setValidCredentials]= useState(false)
+  const [validCredentials, setValidCredentials]= useState(false);
+  const [nameUnvalid, setNameUnvalid] = useState(false);
+  const [name, setName] = useState("");
 
   const nameRef = useRef();
   const lastNameRef = useRef();
@@ -176,6 +178,10 @@ export function AuthProvider({ children }) {
     if (!userSession) fetchUserDetails();
   }, [currentUser]);
   const props = {
+    name,
+    setName,
+    nameUnvalid,
+    setNameUnvalid,
     showPreview,
     setShowPreview,
     imageClicked,

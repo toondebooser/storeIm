@@ -27,9 +27,8 @@ height: 100dvh;
 .content{
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: 0.5fr 0.5fr max-content 1fr ;
+    grid-template-rows: max-content max-content max-content max-content ;
     flex-grow: 1;
-
 }
 .card{
     align-self: center;
@@ -98,7 +97,7 @@ form{
 
 .unvalid{
     color: red;
-    
+
 }
 .fileUpload{
     grid-row: 2/3;
