@@ -11,27 +11,27 @@ export default function Signup() {
     lastNameRef,
     passwordRef,
     createUser,
-    nameUnvalid,
-    setNameUnvalid,
-    setName
   } = useAuth();
-  
+  const [unvalidResults, setUnvalidResults] = useState([
+    {name: false},
+    {lastName: false},
+    {email: false},
+    {password: false}
+  ]);
 
-  const handleNameChange = (event) => {
+
+
+  const handleValidation = (event, patternType, inputType) => {
     const userInput = event.target.value;
-    const validate = Validation("name", userInput);
-    setNameUnvalid(validate);
-    // const testPattern = /^[A-Za-z ]+$/;
-    // const validName = testPattern.test(userInput);
-    // if (validName) {
-    //   console.log("valid");
-    //   setNameUnvalid(false);
-    // } else {
-    //   if (userInput == "") return setNameUnvalid(false);
-    //   setNameUnvalid(true);
-    //   console.log("unvalid");
-    // }
+    const validate = Validation(patternType, userInput);
+    setUnvalidResults((prev)=>{
+      const updateInputValidationResult = prev.map((item)=>({
+        ...item,[inputType]: validate
+      }))
+      return updateInputValidationResult;
+    })
   };
+
 
   return (
     <>
@@ -41,31 +41,31 @@ export default function Signup() {
         <form onSubmit={createUser}>
           <span className="formElement">
             <label
-              className={nameUnvalid ? "unvalid label" : "label"}
+              className={unvalidResults[0].name ? "unvalid label" : "label"}
               htmlFor="name"
             >
-              Name {nameUnvalid && "* unvalid name"}
+              Name {unvalidResults[0].name && "* unvalid name"}
             </label>
             <br />
             <input
               type="text"
               name="name"
               ref={nameRef}
-              onChange={handleNameChange}
+              onChange={(e) => handleValidation(e, "letters", "name")}
             />
           </span>
 
           <span className="formElement">
-            <label htmlFor="lastName" className="label">
-              LastName
+            <label htmlFor="lastName" className={unvalidResults[0].lastName?"unvalid label" : "label"}>
+              LastName {unvalidResults[0].lastName && "* unvalid last name"}
             </label>
             <br />
-            <input type="text" name="lastName" ref={lastNameRef} />
+            <input type="text" name="lastName" ref={lastNameRef} onChange={(e)=> handleValidation(e, "letters", "lastName")} />
           </span>
 
           <span className="email">
-            <label htmlFor="email">Email</label> <br />
-            <input required type="email" name="email" ref={emailRef} />
+            <label htmlFor="email" className={unvalidResults[0].email? "unvalid email": 'email'}>Email</label> <br />
+            <input required type="email" name="email" ref={emailRef} onChange={(e)=>handleValidation(e, "email", "email")} />
           </span>
 
           <span className="password">

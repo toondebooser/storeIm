@@ -1,27 +1,27 @@
-import React from 'react'
-
-const onlyLetters = (input) =>{
-  const testPattern = /^[A-Za-z ]+$/;
-  const validation = testPattern.test(input);
-  return validation;
-}
-
-export default function Validation(credential, userInput) {
-
-  switch (credential) {
-    case "name":
-   const validName = onlyLetters(userInput);
-    if (validName) {
-      console.log("valid");
-      return false
-    } else {
-      if (userInput == "") return false;
-      console.log("unvalid");
-      return true;
-    }
-      break;
+const validationResponse = (valid, userInput) => {
+  if (valid) {
+    return false;
+  } else {
+    if (userInput == "") return false;
+    return true;
+  }
+};
+const regex = [
+  { letters: /^[A-Za-z ]+$/ },
+  { email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/ },
+  {password: /^(?=.*[A-Z])(?=.*\d).{8,}$/}
+];
+const validateInput = (input, validationType) => {
   
-    default:
-      break;
-  }  
-}
+  const regexPattern = regex.find( pattern => pattern[validationType]);
+  console.log(regexPattern);
+  const validation = regexPattern[validationType].test(input);
+  return validation;
+};
+
+export default function Validation(patternType, userInput) {
+  
+      const valid = validateInput(userInput, patternType);
+      return validationResponse(valid, userInput);
+  }
+
