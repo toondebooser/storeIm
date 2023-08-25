@@ -1,360 +1,360 @@
-
 :root {
-    --yellow: #ffc000;
-    --white: #f2f2f2;
-    --Black: #333333;
-    --image-width: 0px;
-  }
-html{
-    height: 100dvh;
-    display: grid;
-    
+  --yellow: #ffc000;
+  --white: #f2f2f2;
+  --Black: #333333;
+  --image-width: 0px;
 }
-body{
-    font-family: "-apple-system", "BlinkMacSystemFont", "-apple-system",
+html {
+  height: 100dvh;
+  display: grid;
+}
+body {
+  font-family: "-apple-system", "BlinkMacSystemFont", "-apple-system",
     "BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
     "Open Sans", "Helvetica Neue", sans-serif;
-    background-color:var(--white);
-    margin: 0px 10px;
-    
+  background-color: var(--white);
+  margin: 0px 10px;
 }
-#root{
-display: flex;
-flex-direction: column;
-height: 100dvh;
-}
-
-.content{
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: max-content max-content max-content max-content ;
-    flex-grow: 1;
-}
-.card{
-    align-self: center;
-border-radius: 20px;
-text-align: center;
-grid-column: 2/12;
-justify-self: center;
-margin: 20px;
-max-width: 400px;
-background-color: lightblue;
-
-}
-.footer{
-    text-align: center;
-}
-.goToSignup{
-    color: var(--Black);
-    height: 25px;
-    width: 80px;
-    text-align: center;
-    grid-row: 3/4;
-    grid-column: 2/12;
-    justify-self: center;
-    transform: scale(0.8);
-}
-.goToSignup:hover{
-    color: var(--white);
-    background-color: var(--yellow);
-}
-.haveNoAccount{
-    height: 25px;
-    grid-row: 2/3;
-    grid-column: 2/12;
-    justify-self: center;
-}
-.formTitle{
-    margin-bottom: 4px;
-    color: var(--Black);
-    font-weight:400;
-}
-form{
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 5px;
-    margin-top: 20px;
-    
-}
-.email{
-    
-    grid-column: 2/12;
-    text-align: left;
-    justify-self: center;
-    color: var(--Black)
-    
-}
-.password{
-    grid-column: 2/12;
-    text-align: left;
-    justify-self: center;
-    color: var(--Black)
-}
-.passwordConfirmation{
-    grid-column: 2/12;
-    text-align: left;
-    justify-self: center;
-    color: var(--Black)
-}
-.userWelcomeTitle{
-    grid-column: 2/12;
-    justify-self: center;
-    text-align: center;
-}
-.formElement{
-    grid-column: 1/13;
-    justify-self: center;
-    text-align: start;
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
 }
 
+.content {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: max-content max-content max-content max-content;
+  flex-grow: 1;
+}
+.card {
+  position: relative;
+  align-self: center;
+  border-radius: 20px;
+  text-align: center;
+  grid-column: 2/12;
+  justify-self: center;
+  margin: 20px;
+  max-width: 400px;
+  background-color: lightblue;
+}
+.footer {
+  text-align: center;
+}
+.goToSignup {
+  color: var(--Black);
+  height: 25px;
+  width: 80px;
+  text-align: center;
+  grid-row: 3/4;
+  grid-column: 2/12;
+  justify-self: center;
+  transform: scale(0.8);
+}
+.goToSignup:hover {
+  color: var(--white);
+  background-color: var(--yellow);
+}
+.haveNoAccount {
+  height: 25px;
+  grid-row: 2/3;
+  grid-column: 2/12;
+  justify-self: center;
+}
+.formTitle {
+  margin-bottom: 4px;
+  color: var(--Black);
+  font-weight: 400;
+}
+form {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 5px;
+  margin-top: 20px;
+}
+.email {
+  grid-column: 2/12;
+  text-align: left;
+  justify-self: center;
+  color: var(--Black);
+}
+.password {
+  grid-column: 2/12;
+  text-align: left;
+  justify-self: center;
+  color: var(--Black);
+}
+.passwordConfirmation {
+  grid-column: 2/12;
+  text-align: left;
+  justify-self: center;
+  color: var(--Black);
+}
+.userWelcomeTitle {
+  grid-column: 2/12;
+  justify-self: center;
+  text-align: center;
+}
+.formElement {
+  grid-column: 1/13;
+  justify-self: center;
+  text-align: start;
+}
 
-.fileUpload{
-    grid-row: 2/3;
-    grid-column: 2/12;
-    justify-self: center;
-    border: none;
-    background-color: none;
+.fileUpload {
+  grid-row: 2/3;
+  grid-column: 2/12;
+  justify-self: center;
+  border: none;
+  background-color: none;
 }
-input{
-    margin-top: 10px;
-    border-radius: 10px;
-    background-color: var(--white);
-    width: 200px;
-    height: 30px;
-    border: none;
-    
-    
+input {
+  margin-top: 10px;
+  border-radius: 10px;
+  background-color: var(--white);
+  width: 200px;
+  height: 30px;
+  border: none;
 }
-.uploadButton{
-    grid-row: 4/5;
-    grid-column: 1/13;
-    align-self: start;
-    width: 100px;
-    justify-self: center;
+.uploadButton {
+  grid-row: 4/5;
+  grid-column: 1/13;
+  align-self: start;
+  width: 100px;
+  justify-self: center;
 }
 
-label{
-     font-weight: lighter;
+label {
+  font-weight: lighter;
 }
-.welcomeHeader{
-    grid-column: 1/13;
-    grid-row: 3/4;
-    font-size:xx-large;
-    font-weight: 400;
-    justify-self: center;
+.welcomeHeader {
+  grid-column: 1/13;
+  grid-row: 3/4;
+  font-size: xx-large;
+  font-weight: 400;
+  justify-self: center;
 }
-nav{
-    display: flex;
-    justify-content: end;
-    align-items: center;
-    border-radius: 10px;
-    margin-top: 10px;
-    height: 40px;
-
+nav {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  border-radius: 10px;
+  margin-top: 10px;
+  height: 40px;
 }
-a{
-    position: relative;
-    color: var(--Black);
-    padding: 1px 5px;
-    border-radius: 5px;
-text-decoration: none;
-
+a {
+  position: relative;
+  color: var(--Black);
+  padding: 1px 5px;
+  border-radius: 5px;
+  text-decoration: none;
 }
-a:hover{
-    text-decoration: none;
+a:hover {
+  text-decoration: none;
 }
-.welcomeLogo{
-    grid-column: 1/13;
-    grid-row: 1/3;
-    height: 150px;
-    align-self: end;
-    justify-self: center;
-    /* animation:alternate infinite breath 1s ease-out;
-
-    animation-play-state: running; */
+.welcomeLogo {
+  grid-column: 1/13;
+  grid-row: 1/3;
+  height: 150px;
+  align-self: end;
+  justify-self: center;
 }
-.slideBox{
-    
-    grid-column: 1/13;
-    grid-row: 3/4;
-    display: flex;
-    overflow-x: auto; 
-    transition: opacity 0.5s ease;
+.slideBox {
+  grid-column: 1/13;
+  grid-row: 3/4;
+  display: flex;
+  overflow-x: auto;
+  transition: opacity 0.5s ease;
 }
-.mask{
-    z-index: 2;
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
+.mask {
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
 }
-.slideItem{
-    z-index: 0;
-    width: auto;
-    height: 200px;
-    border-radius: 10px;
-    flex-shrink: 0; 
-    
+.slideItem {
+  z-index: 0;
+  width: auto;
+  height: 200px;
+  border-radius: 10px;
+  flex-shrink: 0;
 }
 .left {
-    align-self: center;
-    height: 20px;
-    width: 20px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    margin: 10px;
-    transform: rotate(135deg);
-  }
-  .right{
-    position: absolute;
-    right: 1px;
-    align-self: center;
-    height: 20px;
-    width: 20px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    margin: 10px;
-    transform: rotate(-45deg);
+  align-self: center;
+  height: 20px;
+  width: 20px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  margin: 10px;
+  transform: rotate(135deg);
+}
+.right {
+  position: absolute;
+  right: 1px;
+  align-self: center;
+  height: 20px;
+  width: 20px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  margin: 10px;
+  transform: rotate(-45deg);
+}
+.whiteBanner {
+  left: 0;
+  top: 0;
+  z-index: 1;
+  height: 30px;
+  width: 100%;
+  position: absolute;
+  background-color: var(--white);
+}
+.top {
+  top: 0;
+}
+.bottom {
+  top: auto;
+  bottom: 0;
+}
+.validationCard {
+  background-color: lightblue;
+  z-index: 1;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 
-  }
-  .whiteBanner{
-    left: 0;
-    top: 0;
-    z-index: 1;
-    height: 30px;
-    width: 100%;
-    position: absolute;
-    background-color: var(--white);
-  }
-  .top{
-    top: 0;
-  }
-  .bottom{
-    top:auto;
-    bottom: 0;
-  }
-.previewBox{
-    z-index: 1;
-    position: absolute;
-    display: grid;
-    width: calc(100% - 20px);
-    grid-template-columns: 30px auto 30px;
-    grid-template-rows: 100%;
-    grid-column: 1/12;
-    grid-row: 1/5;
-    align-self: center;
-    margin-right: 10px;
+  width: calc(80% - 20px);
+  grid-column: 2/12;
+  justify-self: center;
+  border-radius: 10px;
+  height: 20%;
+  align-self: center;
 }
-.previewImage{
-    border-radius: 10px;
-    justify-self: center;
-    max-width: 100%;
-    max-height: 100%;
-    grid-column: 1/4;
-    object-fit: contain;
+.validationAlert {
+  font-size: larger;
 }
-.arrowLeft{
-    border-radius: 5px;
-    display: grid;
-    width: 30px;
-    height: 100%;
-    background-color: grey;
-    opacity: 50%;
-    position: absolute;
+.previewBox {
+  z-index: 1;
+  position: absolute;
+  display: grid;
+  width: calc(100% - 20px);
+  grid-template-columns: 30px auto 30px;
+  grid-template-rows: 100%;
+  grid-column: 1/12;
+  grid-row: 1/5;
+  align-self: center;
+  margin-right: 10px;
 }
-.close{
-    height: 30px;
+.previewImage {
+  border-radius: 10px;
+  justify-self: center;
+  max-width: 100%;
+  max-height: 100%;
+  grid-column: 1/4;
+  object-fit: contain;
+}
+.arrowLeft {
+  border-radius: 5px;
+  display: grid;
+  width: 30px;
+  height: 100%;
+  background-color: grey;
+  opacity: 50%;
+  position: absolute;
+}
+.close {
+  height: 30px;
 }
 .close:hover {
-    opacity: 1;
-  }
-  .close:before, .close:after {
-    position: absolute;
-    top: 8px;
-    left: 14px;
-    content: ' ';
-    height: 20px;
-    width: 2px;
-    background-color:var(--white);
-  }
-  .close:before {
-    transform: rotate(45deg);
-  }
-  .close:after {
-    transform: rotate(-45deg);
-  }
-  
-.arrowRight{
-    border-radius: 5px;
-    display: grid;
-    width: 30px;
-    height: 100%;
-    justify-self: end;
-    background-color: grey;
-    opacity: 50%;
-    position: absolute;
+  opacity: 1;
 }
-.delete{
-    position: absolute;
-    top: 15%;
-    background-color: red;
-    width: 30px;
-    height: 30px;
-
+.close:before,
+.close:after {
+  position: absolute;
+  top: 8px;
+  left: 14px;
+  content: " ";
+  height: 20px;
+  width: 2px;
+  background-color: var(--white);
 }
-.imageLink{
-    width: max-content;
-    margin: 0;
-    padding: 0;
+.close:before {
+  transform: rotate(45deg);
+}
+.close:after {
+  transform: rotate(-45deg);
 }
 
-.loading{
-    position: absolute;
-    top: 55%;
-    left: 46%;
-    border: 10px solid lightblue;
+.arrowRight {
+  border-radius: 5px;
+  display: grid;
+  width: 30px;
+  height: 100%;
+  justify-self: end;
+  background-color: grey;
+  opacity: 50%;
+  position: absolute;
+}
+.delete {
+  position: absolute;
+  top: 15%;
+  background-color: red;
+  width: 30px;
+  height: 30px;
+}
+.imageLink {
+  width: max-content;
+  margin: 0;
+  padding: 0;
+}
+
+.loading {
+  position: absolute;
+  top: 55%;
+  left: 46%;
+  border: 10px solid lightblue;
   border-radius: 50%;
   border-top: 10px solid var(--yellow);
   width: 50px;
   height: 50px;
   animation: spin 1s linear infinite;
 }
-.uploading{
-    opacity: 50%;
+.uploading {
+  opacity: 50%;
 }
 
-.submit{
-    grid-column: 2/12;
-    justify-self: center;
-    width: 100%;
-    margin-bottom: 20px;
+.submit {
+  grid-column: 2/12;
+  justify-self: center;
+  width: 100%;
+  margin-bottom: 20px;
 }
-.submitButton{
-    background: linear-gradient(145deg, #ebc64f, var(--yellow));
- box-shadow:  5px 5px 10px #424141,;
-    width: 100%;
-    border: none;
-    margin-top: 15px;
-    color: white;
-    background-color: var(--yellow) ;
-    border-radius: 10px;
-    transition: transform 0.2s ease;
+.submitButton {
+  background: linear-gradient(145deg, #ebc64f, var(--yellow));
+  box-shadow: 5px 5px 10px #424141;
+  width: 100%;
+  border: none;
+  margin-top: 15px;
+  color: white;
+  background-color: var(--yellow);
+  border-radius: 10px;
+  transition: transform 0.2s ease;
 }
-.submitButton:hover{
-    cursor: pointer;
-    transform: scale(1.01);
+.submitButton:hover {
+  cursor: pointer;
+  transform: scale(1.01);
 }
-.appHeader{
-    background-color: lightblue;
-    border-radius: 10px;
-    padding-bottom: 5px;
-    text-align: center;
-    font-weight: lighter;
+.appHeader {
+  background-color: lightblue;
+  border-radius: 10px;
+  padding-bottom: 5px;
+  text-align: center;
+  font-weight: lighter;
 }
-.unvalid{
-    color: red;
-
+.unvalid {
+  color: red;
 }
 /* @keyframes zoom {
     0% {
@@ -369,22 +369,25 @@ a:hover{
       }
 } */
 @keyframes breath {
-    0%{
-        transform: translateY(0px) scale(1)
-    }
-    100%{
-        transform: translateY(-20px) ;
-    }
+  0% {
+    transform: translateY(0px) scale(1);
+  }
+  100% {
+    transform: translateY(-20px);
+  }
 }
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
   }
-@media(orientation: landscape){
-    .previewBox{
-        align-items: center;
-        top: 6%;
-        bottom: 5%;
-    }
-  
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@media (orientation: landscape) {
+  .previewBox {
+    align-items: center;
+    top: 6%;
+    bottom: 5%;
+  }
 }

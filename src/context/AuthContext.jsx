@@ -36,14 +36,21 @@ export function AuthProvider({ children }) {
   const [userUsedStorage, setUserUsedStorage] = useState(null);
   const [imageClicked, setImageClicked] = useState(null);
   const [showPreview, setShowPreview] = useState(false);
-  const [validCredentials, setValidCredentials]= useState(false);
+  const [validCredentials, setValidCredentials] = useState(false);
+  const [unvalidResults, setUnvalidResults] = useState({
+    name: false,
+    lastName: false,
+    email: false,
+    password: false,
+    passwordConfirm: false,
+  });
+  const [showValidationAlert, setShowValidationAlert] = useState(false);
 
   const nameRef = useRef();
   const lastNameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmationRef = useRef();
-  
 
   const getUserDetails = async () => {
     // !!
@@ -64,24 +71,25 @@ export function AuthProvider({ children }) {
 
   const createUser = async (e) => {
     e.preventDefault();
-
-    // TODO add validation before creation
-
+    const values = Object.values(unvalidResults);
+    const check = values.includes(true);
+    if (check) {
+      setShowValidationAlert(true);
+      return;
+    }
     createUserWithEmailAndPassword(
       auth,
       emailRef.current.value,
       passwordRef.current.value
     )
       .then(async (userCredential) => {
-        console.log(userCredential.user);
         await setDoc(doc(db, "users", userCredential.user.uid), {
           first: nameRef.current.value,
           lastName: lastNameRef.current.value,
           email: userCredential.user.email,
           uid: userCredential.user.uid,
-        });
-
-        navigate("/dashboard");
+        }),
+          navigate("/dashboard");
       })
       .catch((error) => {
         console.log(error);
@@ -114,7 +122,6 @@ export function AuthProvider({ children }) {
     setUserImages(null);
     setUserSession(false);
   };
-
 
   const getUserImages = async () => {
     console.log("image fetcher triggered");
@@ -170,12 +177,16 @@ export function AuthProvider({ children }) {
       setLoading(false);
       if (document && currentUser) {
         setUserSession(true);
-        getUserImages()
+        getUserImages();
       }
     };
     if (!userSession) fetchUserDetails();
   }, [currentUser]);
   const props = {
+    showValidationAlert,
+    setShowValidationAlert,
+    unvalidResults,
+    setUnvalidResults,
     showPreview,
     setShowPreview,
     imageClicked,
