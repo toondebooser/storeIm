@@ -16,8 +16,6 @@ export default function Signup() {
     setUnvalidResults,
     showValidationAlert,
   } = useAuth();
-  console.log(showValidationAlert);
-
   const handleValidation = (event, patternType, inputType) => {
     const userInput = event.target.value;
     const validate = Validation(patternType, userInput);
@@ -26,6 +24,20 @@ export default function Signup() {
       ...prev,
       [inputType]: validate,
     }));
+  };
+  console.log(unvalidResults);
+  const confirmPassword = () => {
+    if (passwordRef.current.value !== passwordConfirmationRef.current.value) {
+      setUnvalidResults((prev) => ({
+        ...prev,
+        passwordConfirm: true,
+      }));
+    } else {
+      setUnvalidResults((prev) => ({
+        ...prev,
+        passwordConfirm: false,
+      }));
+    }
   };
 
   return (
@@ -44,6 +56,7 @@ export default function Signup() {
             </label>
             <br />
             <input
+              required
               type="text"
               name="name"
               ref={nameRef}
@@ -64,6 +77,7 @@ export default function Signup() {
             </label>
             <br />
             <input
+              required
               type="text"
               name="lastName"
               ref={lastNameRef}
@@ -107,6 +121,7 @@ export default function Signup() {
             </label>
             <br />
             <input
+              required
               type="password"
               name="password"
               ref={passwordRef}
@@ -119,12 +134,23 @@ export default function Signup() {
           </span>
 
           <span className="passwordConfirmation">
-            <label htmlFor="passwordConfirmation">Password Confirmation</label>
+            <label
+              className={
+                unvalidResults.passwordConfirm
+                  ? "unvalid passwordConfirm"
+                  : "passwordConfirm"
+              }
+              htmlFor="passwordConfirmation"
+            >
+              Password Confirmation
+            </label>
             <br />
             <input
+              required
               type="password"
               name="passwordConfirmation"
               ref={passwordConfirmationRef}
+              onChange={confirmPassword}
             />
           </span>
 

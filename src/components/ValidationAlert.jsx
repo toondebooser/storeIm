@@ -3,7 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 
 export default function ValidationAlert() {
-    console.log("execte");
+    console.log("Alert screen send");
   const {setShowValidationAlert}= useAuth();
   const closeValidationAlert = ()=>{
     setShowValidationAlert(false);
@@ -16,7 +16,7 @@ export default function ValidationAlert() {
           Account creation faild due to unvalid credentials please correct and
           proceed.
         </div>
-        <button onClick={()=>closeValidationAlert()}>Close</button>
+        <button onClick={closeValidationAlert}>Close</button>
     </div>
   );
 }

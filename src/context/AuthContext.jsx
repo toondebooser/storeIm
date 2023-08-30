@@ -36,7 +36,7 @@ export function AuthProvider({ children }) {
   const [userUsedStorage, setUserUsedStorage] = useState(null);
   const [imageClicked, setImageClicked] = useState(null);
   const [showPreview, setShowPreview] = useState(false);
-  const [validCredentials, setValidCredentials] = useState(false);
+  // const [validCredentials, setValidCredentials] = useState(false);
   const [unvalidResults, setUnvalidResults] = useState({
     name: false,
     lastName: false,
