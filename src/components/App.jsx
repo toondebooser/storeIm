@@ -9,8 +9,6 @@ import LoginForm from "./LoginForm";
 import Dashboard from "./Dashboard";
 import Signup from "./Signup";
 
-
-
 function App() {
   const { loggedOut } = useAuth();
   return (

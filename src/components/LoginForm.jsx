@@ -2,29 +2,34 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function LoginForm() {
-  const {
-    currentUser,
-    passwordConfirmationRef,
-    emailRef,
-    passwordRef,
-    loginUser,
-  } = useAuth();
-
+  const { emailRef, passwordRef, loginUser } = useAuth();
   return (
     <>
       <div className="card">
         <h2 className="formTitle">Log in</h2>
 
-        <form onSubmit={loginUser}>
+        <form onSubmit={loginUser} >
           <span className="email">
             <label htmlFor="email">Email</label> <br />
-            <input required type="email" name="email" ref={emailRef} />
+            <input
+            autoComplete="email"
+              required
+              type="email"
+              id="email"
+              name="email"
+              ref={emailRef}
+            />
           </span>
 
           <span className="password">
             <label htmlFor="password">Password</label>
             <br />
-            <input type="password" name="password" ref={passwordRef} />
+            <input
+              type="password"
+              name="password"
+              id="password"
+              ref={passwordRef}
+            />
           </span>
 
           <span className="submit">

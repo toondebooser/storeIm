@@ -333,7 +333,7 @@ a:hover {
 }
 .submitButton {
   background: linear-gradient(145deg, #ebc64f, var(--yellow));
-  box-shadow: 5px 5px 10px #424141;
+  box-shadow: 2px 2px 6px #424141;
   width: 100%;
   border: none;
   margin-top: 15px;

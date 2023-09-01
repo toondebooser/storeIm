@@ -1,8 +1,6 @@
 import { useAuth } from "../context/AuthContext";
-import { useState, useEffect } from "react";
 import Validation from "./Validation";
 import ValidationAlert from "./validationAlert";
-import { validate } from "uuid";
 
 export default function Signup() {
   const {
@@ -57,8 +55,10 @@ export default function Signup() {
             <br />
             <input
               required
+              autoComplete="given-name"
               type="text"
               name="name"
+              id="name"
               ref={nameRef}
               onChange={
                 showValidationAlert
@@ -78,8 +78,10 @@ export default function Signup() {
             <br />
             <input
               required
+              autoComplete="family-name"
               type="text"
               name="lastName"
+              id="lastName"
               ref={lastNameRef}
               onChange={
                 showValidationAlert
@@ -99,8 +101,10 @@ export default function Signup() {
             <br />
             <input
               required
+              autoComplete="email"
               type="email"
               name="email"
+              id="email"
               ref={emailRef}
               onChange={
                 showValidationAlert
@@ -124,6 +128,7 @@ export default function Signup() {
               required
               type="password"
               name="password"
+              id="password"
               ref={passwordRef}
               onChange={
                 showValidationAlert
@@ -149,6 +154,7 @@ export default function Signup() {
               required
               type="password"
               name="passwordConfirmation"
+              id="passwordConfirmation"
               ref={passwordConfirmationRef}
               onChange={confirmPassword}
             />
