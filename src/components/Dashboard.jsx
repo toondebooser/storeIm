@@ -60,11 +60,12 @@ export default function Dashboard() {
     setUserUsedStorage(parseFloat(result.toFixed(2)));
     result = 0;
   }, [userImages]);
-
+console.log(userUsedStorage);
   useEffect(() => {
     console.log("building triggered");
     if (userImages) {
       const images = [...userImages];
+      
       const slideBox = document.querySelector(".slideBox");
       const childCount = slideBox.childElementCount;
       if (childCount == images.length) return;
